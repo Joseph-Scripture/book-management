@@ -1,0 +1,64 @@
+body{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 100px;
+    box-sizing: border-box;
+}
+label, input, .login-btn{
+    display: block;
+    color:black ;
+    margin: 10px;
+    text-align: center;
+    
+}
+input, .login-btn{
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid blue;
+    font-size: 20px;
+}
+.login{
+    padding: 20px;
+}
+
+h2{
+    text-align: center;
+    margin-top: 2px;
+}
+.login-btn,  .explore-btn{
+    margin-top: 20px;
+    background-color: navajowhite;
+    /* width: 1px; */
+}
+input, .login-btn {
+  width: 100%;
+  box-sizing: border-box;
+}
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 60px; 
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: blue;
+  text-decoration: underline;
+}
