@@ -1,64 +1,80 @@
 body{
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-style: normal;
-    font-size: 1.2rem;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    gap: 100px;
-    box-sizing: border-box;
+    background-color: #D6A99D;
+    font-family:'Poppins' sans-serif;
+    font-weight: 600;
+    font-style: normal;
 }
-label, input, .login-btn{
+label{
     display: block;
-    color:black ;
-    margin: 10px;
+    font-size: 30px;
+    margin: 5px;
+}
+form{
+    width: 400px;
+    border-radius: 15px;
+    border: 2px solid whitesmoke;
+    box-shadow: 0 0 2px  rgba(0, 0, 0, 0.5);
+   
+}
+.img-container{
+  
+   background-color: navy;
+   text-align: center;
+}
+img{
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+}
+p{
+    color:white;
+    font-size: 25px;
     text-align: center;
+    font-weight: bold;
+
+}
+.second{
+    padding: 5px;
+}
+input{
+    width: 88%;
+     padding: 10px;
+     margin: 5px;
+     font-size: 20px;
+    border-radius: 8px;
+    /* border: none; */
+    border-color: whitesmoke;
+    outline: none;
+    appearance: none;
+}
+input:focus{
+    border-color: navy;
+    outline: none;
+    appearance: none;
+}
+.content{
+    padding:8px;
+
+}
+.btn{
+    width: 93%;
+    text-align: center
     
 }
-input, .login-btn{
+button{
+    color: white;
+    background-color: navy;
     padding: 10px;
-    border-radius: 8px;
-    outline: none;
-    border: 1px solid blue;
-    font-size: 20px;
+    margin: 10px;
+    width: 100%;
+    font-size: 25px;
+    border-radius: 10px;
+    margin-top: 15px;
 }
-.login{
-    padding: 20px;
-}
-
-h2{
-    text-align: center;
-    margin-top: 2px;
-}
-.login-btn,  .explore-btn{
-    margin-top: 20px;
-    background-color: navajowhite;
-    /* width: 1px; */
-}
-input, .login-btn {
-  width: 100%;
-  box-sizing: border-box;
-}
-.password-wrapper {
-  position: relative;
-  width: 100%;
-}
-
-.password-wrapper input {
-  width: 100%;
-  padding-right: 60px; 
-  box-sizing: border-box;
-}
-
-.toggle-password {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: blue;
-  text-decoration: underline;
+.error{
+    color: red;
 }

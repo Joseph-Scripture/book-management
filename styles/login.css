@@ -1,0 +1,114 @@
+body{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 100px;
+    box-sizing: border-box;
+    background-color: #f4f6f9
+}
+label, input, .login-btn{
+    display: block;
+    color:black ;
+    margin: 10px;
+    text-align: center;
+    
+}
+a{
+  text-decoration: none;
+  color: black;
+}
+input, .login-btn{
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid blue;
+    font-size: 20px;
+}
+.login{
+    padding: 20px;
+    border: 2px solid darkblue;
+    width: calc(23rem + 25px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+}
+
+h2{
+    text-align: center;
+    margin-top: 2px;
+    color: navy;
+}
+.login-btn{
+    margin-top: 20px;
+    background-color: navajowhite;
+    /* width: 1px; */
+}
+input, .login-btn {
+  width: 100%;
+  box-sizing: border-box;
+}
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 60px; 
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: blue;
+  text-decoration: underline;
+}
+#password:invalid{
+  border-color: red;
+}
+/* other text */
+.signup{
+  text-align: center;
+  font-size: 24px;
+  margin: 20px;
+  background-color: #faf3e0;
+}
+.text{
+  margin-top: 0;
+  color: navy;
+
+}
+.second{
+  margin-left: 40px;
+}
+.explore-btn{
+  background-color: navajowhite;
+  padding: 12px;
+  text-align: center;
+  align-self: center;
+  margin-top: 20px;
+  border: 1px solid blue;
+   width: 50%;
+  box-sizing: border-box;
+  font-size: 20px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+.signup{
+   width: 600px;
+   border: 2px solid navy;
+}
+.login:hover,
+.signup:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
