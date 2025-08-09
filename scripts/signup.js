@@ -1,3 +1,5 @@
+const passwordInput = document.querySelector('#password');
+const togglePassword = document.querySelector('.toggle-password');
 
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
@@ -54,4 +56,12 @@ form.addEventListener('submit', (event) => {
   if (emailError.textContent || passwordError.textContent || confirmError.textContent) {
     event.preventDefault(); 
   }
+});
+
+// Password toggle functionality
+togglePassword.addEventListener('click', () => {
+  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordInput.setAttribute('type', type);
+  togglePassword.querySelector('i').classList.toggle('fa-eye');
+  togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
 });
