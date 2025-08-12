@@ -7,35 +7,88 @@
     <link rel="stylesheet" href="./styles/index.css">
 </head>
 <body>
-   <nav>
-  <div class="nav-content">
-    <a href="#home" class="logo">
-      <img src="images/logo.jpg" alt="Library Logo" style="border-radius: 50%; width: 40px;">
-    </a>
-    <ul>
-      <li><input type="text" name="search" id="search" placeholder="Search Items"></li>
-      <li><a href="#library" class="nav-link active">Library</a></li>
-      <li><a href="login.html" class="nav-link signing">Login</a></li>
-      <li><a href="signup.html" class="nav-link signing">SignUp</a></li>
-    </ul>
-  </div>
-</nav>
-<main id="home" class="hero">
-  <div class="hero-content">
-    <h1>Discover Worlds Beyond Words</h1>
-    <p>
-      Whether you're chasing dragons, decoding mysteries, or diving into deep knowledge, 
-      <span class="request">ReadQuest</span> opens the door to thousands of stories waiting to be explored.
-      Your next favorite book is just a click away.
-    </p>
-    <a href="#library" class="explore-button">Explore Library &rarr;</a>
-  </div>
-</main>
+  <nav role="navigation">
+    <div class="nav-content">
+      <a href="#home" class="logo">
+        <img src="images/logo.jpg" alt="Library Logo" style="border-radius: 50%; width: 40px;">
+      </a>
+      <ul>
+        <li><input type="text" name="search" id="search" placeholder="Search Items"></li>
+        <li><a href="#library" class="nav-link active">Library</a></li>
+        <li><a href="login.html" class="nav-link signing">Login</a></li>
+        <li><a href="signup.html" class="nav-link signing">SignUp</a></li>
+      </ul>
+    </div>
+  </nav>
+  <main id="home" class="hero">
+    <h1>Discover, Borrow, Read - Your Library Anywhere</h1>
+    <p>Manage your reading journey, borrow books online, and keep track of your library activity.</p>
+    <div class="hero-buttons">
+      <button class="browse">Browse Library</button>
+      <button class="action">Sign Up / Login</button>
+    </div>
+  </main>
+  <section>
+    <div class="container">
+      <div class="first">
+        <img class="icon" src="images/book-open.svg" alt="book">
+        <h2>Wide selection of Books</h2>
+        <p class="text">From classics to modern reads.</p>
 
+      </div>
+      <div class="second">
+        <img class="icon" src="images/borrow.png" alt="borrow">
+        <h2>Easy Borrowing</h2>
+        <p class="text">Reserve and borrow books with one click</p>
+      </div>
+      <div class="third">
+        <img class="icon" src="images/tick.png" alt="tick">
+        <h2>Track Reading Progress</h2>
+        <p class="text">Mark books as reading, completed, or on your wish-list</p>
+      </div>
+      <div class="fourth">
+        <img class="icon" src="images/notif.png" alt="Notification">
+        <h2>Notifications & Updates</h2>
+        <p class="text">Get alerts for due dates and new arrivals</p>
+      </div>
+
+    </div>
+
+  </section>
+  <div class="display-books">
+      <h1>Featured Books</h1>
+    </div>
+  <section class="others">
     
+    <div class="display-container">
+      <div class="first-book">
+        <img src="images/the way.jpeg" alt="The obstacle is the way">
+        <p class="author">Ryan Holiday</p>
+      </div>
+      <div class="second-book">
+        <img src="images/gatsby.jpeg" alt="The Great Gatsby">
+          <p class="author">F. FitzGerald</p>
+        </img>
+      </div>
+      <div class="third-book">
+        <img src="images/1984.jpeg" alt="1984">
+        <p class="author">George Orwell</p>
+      </div>
+      <div class="fourth-book">
+        <img src="images/Crime and Punishment.jpeg" alt="Crime and Punishment">
+        <p class="author">Fyodor Dostoevsky</p>
+      </div>
+
+    </div>
 
 
-
+  </section>
+  <footer>
+    <h3>Contact</h3>
+    <h3>Library</h3>
+    <h3>About</h3>
+  </footer>
+ 
     <script src="./scripts/scripts.js"></script>
 </body>
 </html>

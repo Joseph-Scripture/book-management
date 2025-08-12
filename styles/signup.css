@@ -49,7 +49,7 @@ p {
     padding: 8px;
 }
 
-/* Container for inputs - both with and without show text */
+
 .input-container, .name {
     position: relative;
     display: block;
@@ -57,11 +57,11 @@ p {
     margin: 5px 0;
 }
 
-/* Base styles for all inputs - same width as button */
+
 input {
     width: 100%;
     padding: 10px;
-    padding-right: 60px; /* Space for show text on all inputs for consistency */
+    padding-right: 60px; 
     font-size: 20px;
     border-radius: 8px;
     border: 1px solid whitesmoke;
@@ -69,6 +69,9 @@ input {
     appearance: none;
     box-sizing: border-box;
     margin: 0;
+}
+input:invalid{
+    border-color: red;
 }
 
 input:focus {
