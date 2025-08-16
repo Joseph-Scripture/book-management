@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+:root{
+    --navy: navy;
+    --navajo: navajowhite;
+    --bg-page: #f4f6f9;
+    --bg-card: #ffffff;
+    --border: 1px solid blue;
+    --border-dark: 2px solid darkblue;
+}
+
 body{
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
@@ -6,109 +17,151 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    gap: 100px;
+    min-height: 100vh;
+    gap: clamp(2rem, 4vw, 6rem);   /* fluid gap */
+    padding: 2rem 1rem;
     box-sizing: border-box;
-    background-color: #f4f6f9
+    background-color: var(--bg-page);
 }
-label, input, .login-btn{
+
+/* ----------  Card wrappers  ---------- */
+.login,
+.signup{
+    width: 100%;
+    max-width: 23rem;              
+    padding: 1.5rem;
+    border: var(--border-dark);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,.15);
+    background-color: var(--bg-card);
+    transition: transform .3s ease;
+}
+
+.signup{
+    border-color: var(--navy);
+    max-width: 25rem;              
+}
+
+.login:hover,
+.signup:hover{
+    transform: scale(1.05);
+}
+
+/* ----------  Form & text  ---------- */
+label,
+input,
+.login-btn{
     display: block;
-    color:black ;
-    margin: 10px;
+    color: black;
+    margin: .6rem 0;
     text-align: center;
-    
 }
+
 a{
-  text-decoration: none;
-  color: black;
+    text-decoration: none;
+    color: black;
 }
-input, .login-btn{
-    padding: 10px;
+
+input,
+.login-btn{
+    padding: .75rem;
     border-radius: 8px;
     outline: none;
-    border: 1px solid blue;
-    font-size: 20px;
+    border: var(--border);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
-.login{
-    padding: 20px;
-    border: 2px solid darkblue;
-    width: calc(23rem + 25px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    background-color: #ffffff;
+
+.login-btn{
+    margin-top: 1.2rem;
+    background-color: var(--navajo);
 }
 
 h2{
     text-align: center;
-    margin-top: 2px;
-    color: navy;
-}
-.login-btn{
-    margin-top: 20px;
-    background-color: navajowhite;
-    /* width: 1px; */
-}
-input, .login-btn {
-  width: 100%;
-  box-sizing: border-box;
-}
-.password-wrapper {
-  position: relative;
-  width: 100%;
+    margin-top: .25rem;
+    color: var(--navy);
 }
 
-.password-wrapper input {
-  width: 100%;
-  padding-right: 60px; 
-  box-sizing: border-box;
+/* ----------  Password field  ---------- */
+.password-wrapper{
+    position: relative;
+    width: 100%;
 }
 
-.toggle-password {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: blue;
-  text-decoration: underline;
+.password-wrapper input{
+    padding-right: 3rem;
 }
+
+.toggle-password{
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: .9rem;
+    color: blue;
+    text-decoration: underline;
+}
+
 #password:invalid{
-  border-color: red;
+    border-color: red;
 }
-/* other text */
-.signup{
-  text-align: center;
-  font-size: 24px;
-  margin: 20px;
-  background-color: #faf3e0;
-}
-.text{
-  margin-top: 0;
-  color: navy;
 
+/* ----------  Sign-up block extras  ---------- */
+.signup h3.text{
+    color: var(--navy);
+    font-size: 1.5rem;
+    margin-bottom: .5rem;
 }
-.second{
-  margin-left: 40px;
+
+.signup p{
+    font-size: 1rem;
+    margin: .5rem 0;
 }
+
+.signup .second{
+    margin-left: 0;                
+}
+
 .explore-btn{
-  background-color: navajowhite;
-  padding: 12px;
-  text-align: center;
-  align-self: center;
-  margin-top: 20px;
-  border: 1px solid blue;
-   width: 50%;
-  box-sizing: border-box;
-  font-size: 20px;
-  border-radius: 15px;
-  margin-bottom: 10px;
+    display: block;
+    background-color: var(--navajo);
+    padding: .75rem;
+    text-align: center;
+    margin: 1.2rem auto 0;
+    border: var(--border);
+    width: 60%;
+    font-size: 1rem;
+    border-radius: 15px;
 }
-.signup{
-   width: 600px;
-   border: 2px solid navy;
+
+/* ----------  Media Queries  ---------- */
+@media (max-width: 768px){
+    body{
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem;
+    }
+
+    .login,
+    .signup{
+        max-width: 100%;
+    }
 }
-.login:hover,
-.signup:hover {
-  transform: scale(1.1);
-  transition: transform 0.3s ease;
+
+@media (max-width: 480px){
+    html{
+        font-size: 14px;
+    }
+
+    .login,
+    .signup{
+        padding: 1rem;
+    }
+
+    .explore-btn{
+        width: 100%;
+    }
 }
