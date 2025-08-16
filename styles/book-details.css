@@ -89,6 +89,12 @@ body{
     background-color: #dc3545;
 }
 
+/* Back button */
+.back-btn{
+    position: absolute;
+    padding: 10px;
+}
+
 #book-status{
     font-weight: bold;
 }
