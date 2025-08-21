@@ -86,6 +86,13 @@ section {
   width: 50px;
   height: auto;
   margin-bottom: 0.5rem;
+  color: white;
+}
+i{
+  color: white;
+}
+.footer-text{
+  color:white
 }
 
 h2 {
@@ -96,6 +103,9 @@ h2 {
 p.text {
   font-size: clamp(0.9rem, 2.2vw, 1rem);
   text-align: left;
+}
+.fa-hear{
+  color: pink;
 }
 
 .display-books {
@@ -135,16 +145,6 @@ p.text {
   margin-top: 0.5rem;
 }
 
-footer {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  padding: 2rem 1rem;
-  background-color: var(--bg-color);
-  color: white;
-  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-}
-
 
 @media (max-width: 480px) {
   .hero-buttons {
@@ -157,8 +157,5 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
 
-  footer {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  
 }
