@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('overlay');
     const detailsPanel = document.getElementById('details-panel');
     const detailsCloseBtn = document.getElementById('details-close-btn');
-    fetchBookCovers()
 
     const closeAllPanels = () => {
         sidebar.classList.remove('is-open');
@@ -78,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    // --- Add this function to your script ---
     function updateUserProfile(name) {
         const userNameElement = document.getElementById('user-name');
         const userAvatarElement = document.getElementById('user-avatar');
@@ -97,36 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     updateUserProfile("Emma");
 
-        // --- Add this new function to your script ---
-    async function fetchBookCovers() {
-        const bookCards = document.querySelectorAll('.book-card');
-
-        for (const card of bookCards) {
-            const query = card.dataset.query;
-            const imgElement = card.querySelector('img');
-
-            if (query && imgElement) {
-                try {
-                    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=1`);
-                    const data = await response.json();
-
-                    if (data.items && data.items.length > 0) {
-                        const book = data.items[0];
-                        const imageUrl = book.volumeInfo.imageLinks?.thumbnail || book.volumeInfo.imageLinks?.smallThumbnail;
-
-                        if (imageUrl) {
-                            
-                            const highResImageUrl = imageUrl.replace('&zoom=1', '&zoom=0').replace('&edge=curl', '');
-                            
-                            imgElement.src = highResImageUrl;
-                            card.dataset.img = highResImageUrl; 
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error fetching book cover for:', query, error);
-                    
-                }
-            }
-        }
+  
     }
-});
+);

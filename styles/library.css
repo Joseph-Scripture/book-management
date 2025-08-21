@@ -31,6 +31,7 @@ body {
     overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
+
 a {
     text-decoration: none;
     color: inherit;
@@ -73,6 +74,9 @@ img {
     min-height: 100vh;
     grid-template-columns: 1fr; /* Mobile first: single column */
     position: relative;
+}
+h3{
+    color: var(--blue-600);
 }
 
 /* 1. Sidebar Navigation */
