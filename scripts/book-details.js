@@ -1,7 +1,7 @@
 document.getElementById('borrow-btn').addEventListener('click', () => {
-    window.location.href = 'borrow-page';
+    window.location.href = 'read-page.html';
 });
 
 document.getElementById('reserve-btn').addEventListener('click', () => {
-    alert('Book reserved!🙂');
+    window.location.href = 'cart.html';
 });
