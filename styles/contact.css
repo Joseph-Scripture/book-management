@@ -4,19 +4,22 @@
     box-sizing: border-box;
     font-family: 'poppins' , sans-serif;
 }
-
-.container{
-    min-height: 100vh;
-    background: rgb(7, 7, 42);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* background:  center center/cover; */
-    background-image: url(https://images.unsplash.com/photo-1649321988185-784715972344?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+body{
+    background-image:url("../images/img1.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     height: 100vh;
+}
+
+.container{
+    min-height: 100vh;
+    /* background: rgb(7, 7, 42); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background:  center center/cover; */
+
 }
 
 .container form{
@@ -26,12 +29,12 @@
     justify-content: center;
     box-shadow: 20px 20px 50px rgb(13, 12, 12);
     border-radius: 15px;
-    background: rgb(94, 88, 88);
-    backdrop-filter: blur(10px);
+    background: rgb(245, 240, 240);
+    backdrop-filter: blur(15px);
     flex-wrap: wrap;
 }
 .container form h1{
-   color: #fff;
+   color: #191818;
    font-weight: 500;
    margin-top: 20px;
    width: 500px;
@@ -47,17 +50,17 @@
     font-size: 15px;
     margin-bottom: 10px;
     background: none;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #141414;
 }
 .container form input::placeholder{
-    color: #fff;
+    color: #121111;
 }
 .container form #lastName,
 .container form #mobile{
     margin-left: 20px;
 }
 .container form h4{
-    color: #fff;
+    color: #0e0e0e;
     font-weight: 300;
     width: 600px;
     margin-top: 20px;
@@ -65,8 +68,8 @@
 .container form textarea{
     background: none;
     border: none;
-    border-bottom: 2px solid #fff;
-    color: #fff;
+    border-bottom: 2px solid #787878;
+    color: #100f0f;
     font-weight: 200;
     font-size: 15px;
     padding: 10px;
@@ -80,16 +83,16 @@ textarea ::-webkit-scrollbar{
     width: 1cm;
 }
 textarea ::-webkit-scrollbar-thumb{
-    background-color: rgb(191, 173, 173);
+    background-color: rgb(50, 44, 231);
 }
 .container form #button{
     border: none;
-    background: #fff;
+    background: #405bf4;
     border-radius: 5px;
     margin-top: 20px;
     font-weight: 600;
     font-size: 20px;
-    color: #333;
+    color: #0b0b0c;
     width: 100px;
     padding: 0;
     margin-right: 500px;
@@ -100,8 +103,8 @@ textarea ::-webkit-scrollbar-thumb{
     opacity: 0.7;
 }
 .container #button:hover{
-    background-color: rgb(75, 74, 75);
-    color: #fff;
+    background-color: rgb(222, 222, 226);
+    color: #0f0e0e;
     transition: all 0.7s ease-in-out;
 
 }
