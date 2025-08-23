@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Page</title>
+  <link rel="stylesheet" href="./styles/reading.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">📚 MyLibrary</div>
+    <nav>
+      <a href="#">Library</a>
+    </nav>
+    <input type="text" placeholder="Search story title, author..." class="search">
+  </header>
+
+  <!-- Chapter Header -->
+  <section class="chapter-header">
+    <button class="btn prev">← Previous</button>
+    <button class="btn next">Next →</button>
+    <h1>Mr. CEO, Your Wife Has Wanted a Divorce for a Long Time</h1>
+    <h3>Chapter 1</h3>
+    <div class="meta">
+      <span>📅 Updated: 2025-01-03</span>
+    </div>
+    <div class="actions">
+      <button class="btn purple">⚙ Settings</button>
+      <button class="btn green">📑 Chapters</button>
+      <button class="btn red">❤️ Save</button>
+    </div>
+  </section>
+
+  <!-- Reading Content -->
+  <article class="content">
+    <p>Chapter 1 Maggie arrived at the A country airport, already past nine o'clock...</p>
+    <p>Today was her birthday.</p>
+    <p>When she opened her phone, she received a pile of birthday wishes...</p>
+    <p>There was not a single message from Franklin.</p>
+    <p>Maggie’s smile faded...</p>
+    <p>By the time she reached the villa, it was already past ten o’clock.</p>
+    <p>Maid Sara saw her and was stunned: "Madam... why are you here?..."</p>
+  </article>
+
+  <!-- Floating Buttons -->
+  <div class="floating-btns">
+    <button class="fab purple">⚙</button>
+    <button class="fab green">📑</button>
+    <button class="fab red">❤️</button>
+    <button class="fab blue" id="scrollTop">⬆</button>
+  </div>
+
+  <script src="./scripts/reading.js">
+    const settingsBtn = document.querySelector(".btn.purple");
+const modal = document.getElementById("settingsModal");
+const closeBtn = document.getElementById("closeSettings");
+const fontSizeSelect = document.getElementById("fontSize");
+const fontFamilySelect = document.getElementById("fontFamily");
+const lineHeightSelect = document.getElementById("lineHeight");
+const themeSelect = document.getElementById("theme");
+const content = document.querySelector(".content");
+
+// Apply saved settings
+window.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("fontSize")) {
+    content.style.fontSize = localStorage.getItem("fontSize") + "px";
+    fontSizeSelect.value = localStorage.getItem("fontSize");
+  }
+  if (localStorage.getItem("fontFamily")) {
+    content.style.fontFamily = localStorage.getItem("fontFamily");
+    fontFamilySelect.value = localStorage.getItem("fontFamily");
+  }
+  if (localStorage.getItem("lineHeight")) {
+    content.style.lineHeight = localStorage.getItem("lineHeight");
+    lineHeightSelect.value = localStorage.getItem("lineHeight");
+  }
+  if (localStorage.getItem("theme")) {
+    setTheme(localStorage.getItem("theme"));
+    themeSelect.value = localStorage.getItem("theme");
+  }
+});
+
+// Open / Close modal
+settingsBtn.addEventListener("click", () => modal.style.display = "block");
+closeBtn.addEventListener("click", () => modal.style.display = "none");
+window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
+
+// Font size
+fontSizeSelect.addEventListener("change", () => {
+  content.style.fontSize = fontSizeSelect.value + "px";
+  localStorage.setItem("fontSize", fontSizeSelect.value);
+});
+
+// Font family
+fontFamilySelect.addEventListener("change", () => {
+  content.style.fontFamily = fontFamilySelect.value;
+  localStorage.setItem("fontFamily", fontFamilySelect.value);
+});
+
+// Line height
+lineHeightSelect.addEventListener("change", () => {
+  content.style.lineHeight = lineHeightSelect.value;
+  localStorage.setItem("lineHeight", lineHeightSelect.value);
+});
+
+// Theme
+themeSelect.addEventListener("change", () => {
+  setTheme(themeSelect.value);
+  localStorage.setItem("theme", themeSelect.value);
+});
+
+// Function to change theme
+function setTheme(theme) {
+  document.body.classList.remove("light-theme","dark-theme","sepia-theme","blue-theme");
+  if (theme === "dark") document.body.classList.add("dark-theme");
+  else if (theme === "sepia") document.body.classList.add("sepia-theme");
+  else if (theme === "blue") document.body.classList.add("blue-theme");
+  else document.body.classList.add("light-theme");
+}
+
+  </script>
+  <!-- Settings Modal -->
+<div id="settingsModal" class="modal">
+  <div class="modal-content">
+    <span id="closeSettings" class="close">&times;</span>
+    <h2>⚙ Reading Settings</h2>
+
+    <!-- Font Size -->
+    <label for="fontSize">Font Size</label>
+    <select id="fontSize">
+      <option value="14">14px - Small</option>
+      <option value="16">16px - Normal</option>
+      <option value="18" selected>18px - Comfortable</option>
+      <option value="20">20px - Large</option>
+      <option value="24">24px - Extra Large</option>
+    </select>
+    <br><br>
+
+    <!-- Font Family -->
+    <label for="fontFamily">Font Family</label>
+    <select id="fontFamily">
+      <option value="'Arial', sans-serif">Arial</option>
+      <option value="'Georgia', serif">Georgia</option>
+      <option value="'Times New Roman', serif">Times New Roman</option>
+      <option value="'Courier New', monospace">Courier New</option>
+      <option value="'Verdana', sans-serif">Verdana</option>
+    </select>
+    <br><br>
+
+    <!-- Line Height -->
+    <label for="lineHeight">Line Height</label>
+    <select id="lineHeight">
+      <option value="1.4">140% - Tight</option>
+      <option value="1.6">160% - Normal</option>
+      <option value="1.8" selected>180% - Spacious</option>
+      <option value="2.2">220% - Very Spacious</option>
+    </select>
+    <br><br>
+
+    <!-- Background Theme -->
+    <label for="theme">Background Theme</label>
+    <select id="theme">
+      <option value="light">Light - Default</option>
+      <option value="dark">Dark - Night</option>
+      <option value="sepia">Sepia - Paper</option>
+      <option value="blue">Light Blue - Ocean</option>
+    </select>
+  </div>
+</div>
+
+</body>
+</html>
