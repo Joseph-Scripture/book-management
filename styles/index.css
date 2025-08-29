@@ -1,4 +1,6 @@
-
+:rooot{
+  --bg-color: navy;
+}
 
 .hero {
   display: flex;
@@ -18,6 +20,12 @@
   max-width: 700px;
   margin-bottom: 1rem;
 }
+#home{
+    background-size: cover; 
+    background-position: right; 
+    background-repeat: no-repeat;
+     transition: background-image 1s ease-in-out;
+}
 
 .hero p {
   font-size: clamp(0.9rem, 2.5vw, 1.25rem);
@@ -25,7 +33,9 @@
   max-width: 650px;
   margin-bottom: 2rem;
 }
-
+img{
+  max-width: 100%;
+}
 .hero-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -147,14 +157,18 @@ p.text {
 
 
 @media (max-width: 480px) {
-  .hero-buttons {
-    flex-direction: column;
-    width: 100%;
-    max-width: 250px;
+
+  #home{
+    padding: 20em 0 0 0;
   }
 
   .display-container {
     grid-template-columns: 1fr 1fr;
+  }
+    .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 250px;
   }
 
   
