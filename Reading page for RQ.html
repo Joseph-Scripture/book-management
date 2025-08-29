@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111;
+      color: white;
+      padding: 10px 20px;
+    }
+
+    .navbar nav a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .search {
+      padding: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    /* Chapter Header */
+    .chapter-header {
+      background: white;
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .chapter-header h1 {
+      font-size: 22px;
+      margin: 10px 0;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: gray;
+    }
+
+    .actions {
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .purple { background: purple; }
+    .green { background: green; }
+    .red { background: crimson; }
+    .next, .prev { background: gray; }
+
+    /* Reading Content */
+    .content {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.8;
+      font-size: 18px;
+      background: white;
+      border-radius: 8px;
+      transition: background 0.3s, color 0.3s, font-size 0.3s, line-height 0.3s;
+    }
+
+    /* Floating Buttons */
+    .floating-btns {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fab {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .blue { background: dodgerblue; }
+
+    /* Panels */
+    .settings-panel,
+    .chapters-panel {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 280px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+    }
+
+    .settings-panel h3,
+    .chapters-panel h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .settings-panel label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    .chapters-panel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .chapters-panel li {
+      padding: 8px;
+      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .chapters-panel li:hover {
+      background: #f0f0f0;
+    }
+
+    /* Dark mode */
+    .dark-mode {
+      background: #222 !important;
+      color: #f1f1f1 !important;
+    }
+
+    .dark-mode .content {
+      background: #333 !important;
+      color: #f1f1f1 !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">📚 MyLibrary</div>
+    <nav>
+      <a href="#">Library</a>
+    </nav>
+    <input type="text" placeholder="Search story title, author..." class="search">
+  </header>
+
+  <!-- Chapter Header -->
+  <section class="chapter-header">
+    <button class="btn prev" id="prevChapter">← Previous</button>
+    <h1 id="bookTitle">How To Talk To Anyone</h1>
+    <h3 id="chapterTitle">Chapter 1</h3>
+    <div class="meta">
+      <span>📅 Updated: 2025-01-03</span>
+      <span>👁️ 11,643 Views</span>
+    </div>
+    <div class="actions">
+      <button class="btn purple" id="settingsBtn">⚙ Settings</button>
+      <button class="btn green" id="chaptersBtn">📑 Chapters</button>
+      <button class="btn red" id="saveBtn">❤️ Save</button>
+      <button class="btn next" id="nextChapter">Next →</button>
+    </div>
+  </section>
+
+  <!-- Reading Content -->
+  <article class="content" id="readingContent">
+    <p>Chapter 1 How to Make your smile magically diiferent...</p>
+  </article>
+
+  <!-- Floating Buttons -->
+  <div class="floating-btns">
+    <button class="fab purple" id="settingsFab">⚙</button>
+    <button class="fab green" id="chaptersFab">📑</button>
+    <button class="fab red" id="saveFab">❤️</button>
+    <button class="fab blue" id="scrollTop">⬆</button>
+  </div>
+
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <h3>⚙ Reader Settings</h3>
+    <label>Font Size:</label>
+    <input type="range" id="fontSizeControl" min="14" max="28" value="18">
+
+    <label>Line Height:</label>
+    <input type="range" id="lineHeightControl" min="1.2" max="2.5" step="0.1" value="1.8">
+
+    <label>
+      <input type="checkbox" id="darkModeToggle"> Dark Mode
+    </label>
+  </div>
+
+  <!-- Chapters Panel -->
+  <div class="chapters-panel" id="chaptersPanel">
+    <h3>📑 Chapters</h3>
+    <ul id="chapterList"></ul>
+  </div>
+
+  <script>
+    const scrollBtn = document.getElementById("scrollTop");
+    const settingsBtn = document.getElementById("settingsBtn");
+    const settingsFab = document.getElementById("settingsFab");
+    const settingsPanel = document.getElementById("settingsPanel");
+    const chaptersBtn = document.getElementById("chaptersBtn");
+    const chaptersFab = document.getElementById("chaptersFab");
+    const chaptersPanel = document.getElementById("chaptersPanel");
+    const readingContent = document.getElementById("readingContent");
+    const chapterTitle = document.getElementById("chapterTitle");
+    const prevChapterBtn = document.getElementById("prevChapter");
+    const nextChapterBtn = document.getElementById("nextChapter");
+    const saveBtn = document.getElementById("saveBtn");
+    const saveFab = document.getElementById("saveFab");
+
+    // Example book chapters
+    const chapters = [
+      { title: "Chapter 1", text: "How to make your smile magically differrent. IN 2001, one of the Dale Carnegie's sic musts on How to win freinds and infleunce people was SMILE. His edict has been echoed each decade by practically every communications guru who ever put pen to paper or mouth to microphone.However, at the tur of the mellinum it's high time we reexamine the role of thw smile in high-level human relations. When you dict deeper into thid dictum, you'll find that a 2001 quick smile does'nt work especially nowadays. The old fashion instant grind carries no weight with today's sophisticated crowd. Look at world leaders, negotiators and corporate gaints . Not a smilling sycophant among them. Key players in all works of life enrich their smile, so when it does erupt, it has more potency and the world smiles with them...." },
+      { title: "Chapter 2", text: "How to Strike Everyone as Intelligent and Insightful by using your eyes..." },
+      { title: "Chapter 3", text: "How to Use your Eyes to make Someone Fall in Love with you..." },
+      { title: "Chapter 4", text: "How to Look like a Big Winner Wherever you go..." }
+    ];
+
+    let currentChapter = 0;
+
+    function loadChapter(index) {
+      if (index < 0 || index >= chapters.length) return;
+      currentChapter = index;
+      chapterTitle.textContent = chapters[index].title;
+      readingContent.innerHTML = "<p>" + chapters[index].text + "</p>";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Populate chapter list
+    const chapterList = document.getElementById("chapterList");
+    chapters.forEach((ch, i) => {
+      const li = document.createElement("li");
+      li.textContent = ch.title;
+      li.addEventListener("click", () => {
+        loadChapter(i);
+        chaptersPanel.style.display = "none";
+      });
+      chapterList.appendChild(li);
+    });
+
+    // Next/Prev chapter
+    nextChapterBtn.addEventListener("click", () => loadChapter(currentChapter + 1));
+    prevChapterBtn.addEventListener("click", () => loadChapter(currentChapter - 1));
+
+    // Auto-scroll to next chapter
+    window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 2) {
+        loadChapter(currentChapter + 1);
+      }
+    });
+
+    // Save chapter
+    function saveProgress() {
+      localStorage.setItem("savedChapter", currentChapter);
+      alert(`✅ Saved progress at ${chapters[currentChapter].title}`);
+    }
+    saveBtn.addEventListener("click", saveProgress);
+    saveFab.addEventListener("click", saveProgress);
+
+    // Restore saved progress
+    const saved = localStorage.getItem("savedChapter");
+    if (saved !== null) {
+      loadChapter(parseInt(saved));
+    } else {
+      loadChapter(0);
+    }
+
+    // Scroll to top
+    scrollBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Toggle panels
+    function toggleSettings() {
+      settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
+      chaptersPanel.style.display = "none";
+    }
+    function toggleChapters() {
+      chaptersPanel.style.display = chaptersPanel.style.display === "block" ? "none" : "block";
+      settingsPanel.style.display = "none";
+    }
+
+    settingsBtn.addEventListener("click", toggleSettings);
+    settingsFab.addEventListener("click", toggleSettings);
+    chaptersBtn.addEventListener("click", toggleChapters);
+    chaptersFab.addEventListener("click", toggleChapters);
+
+    // Font size control
+    document.getElementById("fontSizeControl").addEventListener("input", (e) => {
+      readingContent.style.fontSize = e.target.value + "px";
+    });
+
+    // Line height control
+    document.getElementById("lineHeightControl").addEventListener("input", (e) => {
+      readingContent.style.lineHeight = e.target.value;
+    });
+
+    // Dark mode toggle
+    document.getElementById("darkModeToggle").addEventListener("change", (e) => {
+      document.body.classList.toggle("dark-mode", e.target.checked);
+    });
+  </script>
+</body>
+</html>
