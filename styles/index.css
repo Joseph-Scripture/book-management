@@ -1,6 +1,7 @@
 :rooot{
-  --bg-color: navy;
+  --bg-color:  #007bff;
 }
+/* #007bff */
 
 .hero {
   display: flex;
@@ -15,23 +16,27 @@
 
 .hero h1 {
   font-size: clamp(1.5rem, 5vw, 2.5rem);
-  color: var(--bg-color);
+  color: #007bff;
   font-weight: bold;
   max-width: 700px;
   margin-bottom: 1rem;
 }
 #home{
     background-size: cover; 
-    background-position: right; 
+    background-position:center ; 
     background-repeat: no-repeat;
      transition: background-image 1s ease-in-out;
+     padding: 15em 0;
 }
 
 .hero p {
   font-size: clamp(0.9rem, 2.5vw, 1.25rem);
   color: #444;
   max-width: 650px;
-  margin-bottom: 2rem;
+  margin-bottom: 2em;
+  margin-top: 1.5em;
+  color:white;
+  font-weight: bold;
 }
 img{
   max-width: 100%;
@@ -44,28 +49,27 @@ img{
 
 .hero button {
   padding: 0.8rem 1.5rem;
-  border-radius: 30px;
+  border-radius: 15px;
   font-size: clamp(0.9rem, 2vw, 1rem);
   font-weight: 600;
-  border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  border: 2px solid white;
+  margin-top: 3em;
+
 }
 .hero button:hover{
-  background-color: navy;
-  color:white;
+  background-color: white;
+  color:var(--bg-color);
 }
 
-/* .hero .browse {
-  background-color: var(--bg-color);
-  color: white;
-} */
 
 .hero .action, .hero .browse {
   background-color: transparent;
-  color: var(--bg-color);
-  border: 2px solid var(--bg-color);
+  color: white;
+
 }
+
 
 section {
   background-color: rgb(254, 254, 254);
@@ -170,6 +174,9 @@ p.text {
     width: 100%;
     max-width: 250px;
   }
+  .action{
+  margin-bottom: 2em;
+}
 
   
 }
