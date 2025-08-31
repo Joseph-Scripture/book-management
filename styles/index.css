@@ -20,13 +20,14 @@
   font-weight: bold;
   max-width: 700px;
   margin-bottom: 1rem;
+  padding-top: 5em;
 }
 #home{
     background-size: cover; 
     background-position:center ; 
     background-repeat: no-repeat;
      transition: background-image 1s ease-in-out;
-     padding: 15em 0;
+     /* padding: 15em 0; */
 }
 
 .hero p {
@@ -34,7 +35,7 @@
   color: #444;
   max-width: 650px;
   margin-bottom: 2em;
-  margin-top: 1.5em;
+  /* margin-top: 1.5em; */
   color:white;
   font-weight: bold;
 }
@@ -158,13 +159,40 @@ p.text {
   font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   margin-top: 0.5rem;
 }
+.changes{
+  width: 100%;
 
+  display: flex;
+  justify-content: center;
+}
+
+.default-change{
+ 
+  border: none;
+  outline: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 15px;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--bg-color);
+  display: inline-block; /* Ensure button respects its content width */
+  background-color: transparent; /* Optional: added for clarity */
+  width: 15%;
+  margin: auto;
+  color: var(--bg-color);
+
+
+}
+.default-change:hover{
+  background-color: var(--bg-color);
+  color: white;
+}
 
 @media (max-width: 480px) {
 
-  #home{
-    padding: 20em 0 0 0;
-  }
+
 
   .display-container {
     grid-template-columns: 1fr 1fr;
