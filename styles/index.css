@@ -205,6 +205,8 @@ p.text {
   .action{
   margin-bottom: 2em;
 }
-
+.default-change{
+  width: 60%;
+}
   
 }
