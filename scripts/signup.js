@@ -1,3 +1,9 @@
+// import
+// import { updateNavbar } from "./update-ui";
+
+
+
+// Constants
 const passwordInput = document.querySelector('#password');
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
@@ -56,7 +62,7 @@ form.addEventListener('submit',async(event) => {
   if (emailError.textContent || passwordError.textContent || confirmError.textContent) {
     event.preventDefault(); 
   }
-  const NGROK_URL = 	"https://98e57cea7371.ngrok-free.app";
+  const NGROK_URL = 	"https://84227d1648cb.ngrok-free.app";
   const apiUrl = `${NGROK_URL}/user/register`;
   const emailText = email.value;
   const passwordText  =password.value;
@@ -77,9 +83,11 @@ form.addEventListener('submit',async(event) => {
             const data = await response.json();
              if (response.ok) { // Status code is 2xx
                 console.log('Success:', data);
+                updateNavbar()
                
                 console.log('message', data.message)
                 form.reset(); 
+                window.location.href = 'index.html'
             } else { 
                 console.error('Error:', data);
                 

@@ -1,3 +1,7 @@
+
+// import { updateNavbar } from "./update-ui";
+
+// constants
 const passwordInput = document.querySelector('#password');
 const togglePassword = document.querySelector('.toggle-password');
 const form = document.querySelector('.login form');
@@ -12,7 +16,7 @@ togglePassword.addEventListener('click', () => {
   togglePassword.querySelector('i').classList.toggle('fa-eye');
   togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
 });
-  const NGROK_URL = 	"https://98e57cea7371.ngrok-free.app";
+  const NGROK_URL = 	"https://84227d1648cb.ngrok-free.app";
   const apiUrl = `${NGROK_URL}/user/register`;
 
 formContainer.addEventListener('submit', async(event)=> {
@@ -39,6 +43,7 @@ formContainer.addEventListener('submit', async(event)=> {
             const data = await response.json();
             if(response.ok){
                 localStorage.setItem('jwtToken', data.token);
+                updateNavbar()
 
               window.location.href= 'index.html';
             }else{
