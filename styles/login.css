@@ -18,13 +18,12 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    gap: clamp(2rem, 4vw, 6rem);   /* fluid gap */
+    gap: clamp(2rem, 4vw, 6rem);  
     padding: 2rem 1rem;
     box-sizing: border-box;
     background-color: var(--bg-page);
 }
 
-/* ----------  Card wrappers  ---------- */
 .login,
 .signup{
     width: 100%;
@@ -47,14 +46,12 @@ body{
     transform: scale(1.05);
 }
 
-/* ----------  Form & text  ---------- */
 label,
 input,
 .login-btn{
     display: block;
     color: black;
     margin: .6rem 0;
-    text-align: center;
 }
 
 a{
@@ -84,7 +81,6 @@ h2{
     color: var(--navy);
 }
 
-/* ----------  Password field  ---------- */
 .password-wrapper{
     position: relative;
     width: 100%;
@@ -109,7 +105,6 @@ h2{
     border-color: red;
 }
 
-/* ----------  Sign-up block extras  ---------- */
 .signup h3.text{
     color: var(--navy);
     font-size: 1.5rem;

@@ -1,5 +1,4 @@
 const passwordInput = document.querySelector('#password');
-
 const email = document.querySelector('#email');
 const password = document.querySelector('#password');
 const confirmPassword = document.querySelector('#confirm');
@@ -7,6 +6,7 @@ const emailError = document.querySelector('.emailError');
 const passwordError = document.querySelector('.first-passError');
 const confirmError = document.querySelector('.second-passError');
 const form = document.querySelector('form');
+const userName = document.querySelector('#username').value;
 
 // Email validation
 function validateEmail() {
@@ -47,7 +47,8 @@ password.addEventListener('input', validatePassword);
 confirmPassword.addEventListener('input', validateConfirmPassword);
 
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit',async(event) => {
+  event.preventDefault();
   validateEmail();
   validatePassword();
   validateConfirmPassword();
@@ -55,6 +56,43 @@ form.addEventListener('submit', (event) => {
   if (emailError.textContent || passwordError.textContent || confirmError.textContent) {
     event.preventDefault(); 
   }
+  const NGROK_URL = 	"https://98e57cea7371.ngrok-free.app";
+  const apiUrl = `${NGROK_URL}/user/register`;
+  const emailText = email.value;
+  const passwordText  =password.value;
+  const requestBody = {
+    email : emailText,
+    password:passwordText,
+    userName:userName,
+  };
+  try{
+      const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+                mode: 'cors' 
+            }, );
+            const data = await response.json();
+             if (response.ok) { // Status code is 2xx
+                console.log('Success:', data);
+               
+                console.log('message', data.message)
+                form.reset(); 
+            } else { 
+                console.error('Error:', data);
+                
+                // messageDiv.textContent = `Error: ${data.error || 'Registration failed.'}`;
+                // messageDiv.className = 'error';
+            }
+
+  }catch(error){
+    console.log(error)
+
+  }
+
+
 });
 
 document.querySelectorAll('.show-password').forEach(span => {
@@ -66,3 +104,6 @@ document.querySelectorAll('.show-password').forEach(span => {
     span.querySelector('i').classList.toggle('fa-eye-slash');
   });
 });
+
+
+

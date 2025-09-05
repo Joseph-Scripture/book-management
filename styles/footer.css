@@ -6,6 +6,7 @@ footer {
   padding: 3rem 1.5rem 1.5rem;
   margin-top: 2rem;
   position: relative;
+  color: white;
 }
 
 footer::before {
@@ -59,7 +60,7 @@ footer::before {
 }
 
 .footer-about {
-  color: #aaa;
+  color: white;
   margin-bottom: 1.5rem;
   line-height: 1.7;
 }
@@ -73,7 +74,7 @@ footer::before {
 }
 
 .footer-links-list a {
-  color: #aaa;
+  color: white;
   text-decoration: none;
   transition: var(--transition);
   display: block;
@@ -115,7 +116,7 @@ footer::before {
 
 .social-icon:hover {
   background: var(--navy);
-  color: var(--black);
+  /* color: var(--black); */
   transform: translateY(-3px);
   box-shadow: 0 5px 15px var(--navy);
 }
@@ -135,7 +136,8 @@ footer::before {
   border-radius: 5px;
   border: 1px solid var(--accent);
   background: rgba(255, 255, 255, 0.05);
-  color: var(--offwhite);
+  /* color: var(--offwhite); */
+  color: white;
 }
 
 #footer-submit {
@@ -178,7 +180,8 @@ footer::before {
 
 .copyright,
 .footer-tagline {
-  color: #aaa;
+  /* color: #aaa; */
+  color: white;
   font-size: 0.9rem;
 }
 

@@ -123,6 +123,11 @@ if (!toggleBtn || !nav || !overlay || !hamburger || !closeIcon) {
                 title: "Dune",
                 author: "Frank Herbert",
                 cover: "images/home-page/dune.jpeg" 
+            },  
+            {
+              title:"La Casa De Suenos",
+              author: "Pauline Gedge",
+              cover: "images/home-page/suenos.jpg"
             }
         
         ];
@@ -137,7 +142,8 @@ if (!toggleBtn || !nav || !overlay || !hamburger || !closeIcon) {
             document.querySelector('.first-book'),
             document.querySelector('.second-book'),
             document.querySelector('.third-book'),
-            document.querySelector('.fourth-book')
+            document.querySelector('.fourth-book'),
+            document.querySelector('.fifth-book')
         ];
 
         bookElements.forEach((element, index) => {
