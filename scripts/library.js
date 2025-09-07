@@ -6,10 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailsPanel = document.getElementById('details-panel');
     const detailsCloseBtn = document.getElementById('details-close-btn');
     
-    // ===== START: NEW CODE FOR FILTERING =====
-
-    // 1. MASTER DATABASE for all books that can be filtered.
-    // Each book has a 'category' property.
+   
     const allCategoryBooks = [
         // Sci-Fi
         { 
@@ -131,15 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ];
 
-    // Get the specific grid for categories using the new ID.
     const categoryBookGrid = document.getElementById('category-book-grid');
-    // Store its initial HTML so we can restore it for the "All" filter.
     const initialCategoryGridHTML = categoryBookGrid.innerHTML;
 
-    // 2. FUNCTION TO RENDER BOOKS
-    // This function clears the grid and populates it with a given list of books.
     const renderBooks = (booksToRender) => {
-        categoryBookGrid.innerHTML = ''; // Clear the grid first
+        categoryBookGrid.innerHTML = ''; 
 
         if (booksToRender.length === 0) {
             categoryBookGrid.innerHTML = '<p class="no-books-message">No books found in this category.</p>';
@@ -171,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateBookCardListeners();
     };
 
-    // 3. EVENT LISTENER FOR CATEGORY BUTTONS
     const categoryButtons = document.querySelectorAll('.category-filters button');
     categoryButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -194,10 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===== END: NEW CODE FOR FILTERING =====
 
 
-    // ===== Existing Panel Logic =====
     const closeAllPanels = () => {
         sidebar.classList.remove('is-open');
         detailsPanel.classList.remove('is-visible');
@@ -238,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return starsHTML;
     };
 
-    // WRAPPED IN A FUNCTION so it can be re-called for new books
     function updateBookCardListeners() {
         const allBookCards = document.querySelectorAll('.book-card');
         allBookCards.forEach(card => {

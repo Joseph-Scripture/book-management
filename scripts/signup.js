@@ -1,8 +1,3 @@
-// import
-// import { updateNavbar } from "./update-ui";
-
-
-
 // Constants
 const passwordInput = document.querySelector('#password');
 const email = document.querySelector('#email');
@@ -12,97 +7,132 @@ const emailError = document.querySelector('.emailError');
 const passwordError = document.querySelector('.first-passError');
 const confirmError = document.querySelector('.second-passError');
 const form = document.querySelector('form');
-const userName = document.querySelector('#username').value;
+const usernameInput = document.querySelector('#username'); // Changed to get the element, not value
 
 // Email validation
 function validateEmail() {
   if (email.validity.valueMissing) {
     emailError.textContent = 'Enter an email';
+    return false;
   } else if (email.validity.typeMismatch) {
     emailError.textContent = 'Please enter a valid email (e.g., user@example.com)';
+    return false;
   } else {
     emailError.textContent = '';
+    return true;
   }
 }
-
 
 function validatePassword() {
   if (password.validity.valueMissing) {
     passwordError.textContent = 'Enter a password';
+    return false;
   } else if (password.validity.tooShort) {
     passwordError.textContent = 'Password must be at least 8 characters';
+    return false;
   } else {
     passwordError.textContent = '';
+    return true;
   }
 }
-
 
 function validateConfirmPassword() {
   if (confirmPassword.validity.valueMissing) {
     confirmError.textContent = 'Confirm your password';
+    return false;
   } else if (confirmPassword.value !== password.value) {
     confirmError.textContent = 'Passwords do not match';
+    return false;
   } else {
     confirmError.textContent = '';
+    return true;
   }
 }
-
 
 email.addEventListener('input', validateEmail);
 password.addEventListener('input', validatePassword);
 confirmPassword.addEventListener('input', validateConfirmPassword);
 
-
-form.addEventListener('submit',async(event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
-  validateEmail();
-  validatePassword();
-  validateConfirmPassword();
+  
+  // Validate all fields
+  const isEmailValid = validateEmail();
+  const isPasswordValid = validatePassword();
+  const isConfirmValid = validateConfirmPassword();
 
-  if (emailError.textContent || passwordError.textContent || confirmError.textContent) {
-    event.preventDefault(); 
+  if (!isEmailValid || !isPasswordValid || !isConfirmValid) {
+    return; // Stop if validation fails
   }
-  const NGROK_URL = 	"https://84227d1648cb.ngrok-free.app";
-  const apiUrl = `${NGROK_URL}/user/register`;
+
+  const API_URL = "https://53911fcfda7e.ngrok-free.app";
+  const apiUrl = `${API_URL}/user/register`;
+  
+  // Get values at submission time
   const emailText = email.value;
-  const passwordText  =password.value;
+  const passwordText = password.value;
+  const userName = usernameInput.value; // Get value when form is submitted
+
   const requestBody = {
-    email : emailText,
-    password:passwordText,
-    userName:userName,
+    email: emailText,
+    password: passwordText,
+    username: userName,
   };
-  try{
-      const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody),
-                mode: 'cors' 
-            }, );
-            const data = await response.json();
-             if (response.ok) { // Status code is 2xx
-                console.log('Success:', data);
-                updateNavbar()
-               
-                console.log('message', data.message)
-                form.reset(); 
-                window.location.href = 'index.html'
-            } else { 
-                console.error('Error:', data);
-                
-                // messageDiv.textContent = `Error: ${data.error || 'Registration failed.'}`;
-                // messageDiv.className = 'error';
-            }
 
-  }catch(error){
-    console.log(error)
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', 
+      body: JSON.stringify(requestBody),
+    });
 
+    console.log('Response status:', response.status);
+    
+    // Handle non-JSON responses
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.log('Non-JSON response:', text);
+      
+      if (response.ok) {
+        // Success but no JSON - redirect
+        window.location.href = 'index.html';
+        return;
+      } else {
+        throw new Error(`Server error: ${response.status} - ${text}`);
+      }
+    }
+
+    const data = await response.json();
+    
+    if (response.ok) {
+      console.log('Success:', data);
+      updateNavbar(); // Uncomment if you have this function
+      form.reset();
+      window.location.href = 'index.html';
+    } else {
+      console.error('Error response:', data);
+      
+      // Display error message to user
+      if (data.message) {
+        alert(`Registration failed: ${data.message}`);
+      } else if (data.error) {
+        alert(`Registration failed: ${data.error}`);
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    }
+
+  } catch (error) {
+    console.error('Network error:', error);
+    alert('Network error. Please check your connection and try again.');
   }
-
-
 });
 
+// Password visibility toggle
 document.querySelectorAll('.show-password').forEach(span => {
   span.addEventListener('click', () => {
     const passwordInput = span.previousElementSibling; 
@@ -112,6 +142,3 @@ document.querySelectorAll('.show-password').forEach(span => {
     span.querySelector('i').classList.toggle('fa-eye-slash');
   });
 });
-
-
-

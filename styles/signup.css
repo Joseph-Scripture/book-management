@@ -21,7 +21,7 @@ label {
 }
 
 form {
-    width: 400px;
+    width: 500px;
     border-radius: 15px;
     max-width: 80%;
     border: 1px solid blue;
@@ -105,7 +105,7 @@ button {
     border: none;
     cursor: pointer;
     box-sizing: border-box;
-    transition: background-color 1s ease, color 1s ease;
+    transition: background-color 700ms ease, color 700ms ease;
 }
 
 button:hover {
@@ -118,9 +118,17 @@ button:hover {
     font-size: 16px;
 }
 @media(max-width:768px){
-    body{
-        font-size: 18px;
+    form{
+        width: 375px;
+        max-width: 90%;
     }
+    body{
+        font-size: 14px;
+    }
+    /* input{
+        width: 270px;
+        max-width: 100%;
+    } */
     .second-pass{
         font-size: 12px;
         font-weight: 300;

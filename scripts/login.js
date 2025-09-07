@@ -16,8 +16,8 @@ togglePassword.addEventListener('click', () => {
   togglePassword.querySelector('i').classList.toggle('fa-eye');
   togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
 });
-  const NGROK_URL = 	"https://84227d1648cb.ngrok-free.app";
-  const apiUrl = `${NGROK_URL}/user/register`;
+  const NGROK_URL = 	"https://53911fcfda7e.ngrok-free.app";
+  const apiUrl = `${NGROK_URL}/user/login`;
 
 formContainer.addEventListener('submit', async(event)=> {
   event.preventDefault();
@@ -26,29 +26,59 @@ formContainer.addEventListener('submit', async(event)=> {
   const passwordValue = passwordInput.value;
   
   const loginData ={
-    email:email,
-    userName:userName,
-    passwordValue:passwordValue
+    emailOrUsername:email,
+    // username:userName,
+    password:passwordValue
 
 
   };
   try{
-    const response = await fetch(apiUrl,  {method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+    const response = await fetch(apiUrl,  {
+      method: 'POST',
+      headers: {
+                  'Content-Type': 'application/json',
+              },
+                credentials: 'include',
                 body: JSON.stringify(loginData),
                 mode: 'cors' 
-            },);
-            const data = await response.json();
-            if(response.ok){
-                localStorage.setItem('jwtToken', data.token);
-                updateNavbar()
+            });
+      console.log('Response status:', response.status);
+    
+    // Handle non-JSON responses
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.log('Non-JSON response:', text);
+      
+      if (response.ok) {
+        // Success but no JSON - redirect
+        window.location.href = 'index.html';
+        return;
+      } else {
+        throw new Error(`Server error: ${response.status} - ${text}`);
+      }
+    }
 
-              window.location.href= 'index.html';
-            }else{
-              error.textContent = data.error||'Invalid credentials'
-            }
+    const data = await response.json();
+    
+    if (response.ok) {
+      console.log('Success:', data);
+      form.reset();
+      window.location.href = 'index.html';
+    } else {
+      console.error('Error response:', data);
+      
+      // Display error message to user
+      if (data.message) {
+        alert(`Registration failed: ${data.message}`);
+      } else if (data.error) {
+        alert(`Registration failed: ${data.error}`);
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    }
+
+     
   }catch{
     // alert('Network error try again later')
     error.textContent = 'An error occured try again later';
