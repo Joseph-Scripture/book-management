@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ===== Existing Element Selections =====
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');

@@ -1,6 +1,4 @@
-// Wait for the entire page to load before running the script
 window.onload = function() {
-    // const open = document.querySelector('#sidebar-toggle');
 
     const header = document.getElementById('home');
     const library = document.querySelector('.browse');
@@ -8,7 +6,6 @@ window.onload = function() {
     const changeDefault = document.querySelector('.default-change')
 
 
-    // 1. Array of image URLs
     const images = [
       
          'url("images/home-page/librarian.avif")',
@@ -17,51 +14,52 @@ window.onload = function() {
         
     ];
     
- // Select elements
-const toggleBtn = document.getElementById('sidebar-toggle');
-const nav = document.querySelector('nav');
-const overlay = document.getElementById('overlay');
-const hamburger = document.getElementById('hamburger-icon');
-const closeIcon = document.getElementById('close-icon');
+  // Select elements
+  const toggleBtn = document.getElementById('sidebar-toggle');
+  const nav = document.querySelector('nav');
+  const overlay = document.getElementById('overlay');
+  const hamburger = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
 
-// Check if elements exist to prevent errors
-if (!toggleBtn || !nav || !overlay || !hamburger || !closeIcon) {
-  console.error('One or more required elements are missing from the DOM');
-} else {
-  function openSidebar() {
-    nav.classList.add('active');
-    overlay.classList.add('active');
-    document.body.classList.add('sidebar-open'); // Prevent body scrolling
-    hamburger.style.display = 'none';
-    closeIcon.style.display = 'block';
-    toggleBtn.setAttribute('aria-expanded', 'true');
-    toggleBtn.setAttribute('aria-label', 'Close sidebar');
-  }
 
-  function closeSidebar() {
-    nav.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.classList.remove('sidebar-open'); // Restore body scrolling
-    hamburger.style.display = 'block';
-    closeIcon.style.display = 'none';
-    toggleBtn.setAttribute('aria-expanded', 'false');
-    toggleBtn.setAttribute('aria-label', 'Open sidebar');
-  }
-
-  // Toggle button click handler
-  toggleBtn.addEventListener('click', () => {
-    if (nav.classList.contains('active')) {
-      closeSidebar();
-    } else {
-      openSidebar();
+  // Check if elements exist to prevent errors
+  if (!toggleBtn || !nav || !overlay || !hamburger || !closeIcon) {
+    console.error('One or more required elements are missing from the DOM');
+  } else {
+    function openSidebar() {
+      nav.classList.add('active');
+      overlay.classList.add('active');
+      document.body.classList.add('sidebar-open'); // Prevent body scrolling
+      hamburger.style.display = 'none';
+      closeIcon.style.display = 'block';
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      toggleBtn.setAttribute('aria-label', 'Close sidebar');
     }
-  });
+
+    function closeSidebar() {
+      nav.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.classList.remove('sidebar-open'); // Restore body scrolling
+      hamburger.style.display = 'block';
+      closeIcon.style.display = 'none';
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.setAttribute('aria-label', 'Open sidebar');
+    }
+
+    // Toggle button click handler
+    toggleBtn.addEventListener('click', () => {
+      if (nav.classList.contains('active')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
 
   // Overlay click closes sidebar
   overlay.addEventListener('click', closeSidebar);
 
   // Initialize button state
-  closeIcon.style.display = 'none'; // Ensure close icon is hidden on load
+  closeIcon.style.display = 'none'; 
 }
 
     library.addEventListener('click', () => {
@@ -159,6 +157,17 @@ if (!toggleBtn || !nav || !overlay || !hamburger || !closeIcon) {
 
 
     }
-    changeDefault.addEventListener('click', loadBooks)
+    changeDefault.addEventListener('click', loadBooks);
+
+
+    const libraryPage = document.querySelector('.library');
+    libraryPage.addEventListener('click', () =>{
+      const token = localStorage.getItem('token');
+      if(!token){
+        window.location.href = 'signup.html';
+      }else{
+        window.location.href = 'library.html'
+      }
+    })
    
 };

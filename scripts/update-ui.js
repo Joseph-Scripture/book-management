@@ -18,20 +18,16 @@ function updateNavbar() {
 
         // Add a click event for logging out
         signupLink.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent the link from navigating
+            event.preventDefault();
             
-            // Remove the token to log the user out
+    
             localStorage.removeItem('jwtToken');
             
-            // Announce logout and redirect to the home page
             alert('You have been successfully logged out.');
             window.location.href = 'index.html';
         });
 
     } else {
-        // --- User is LOGGED OUT ---
-
-        // Ensure links are in their default state
         loginLink.textContent = 'Login';
         loginLink.href = 'login.html';
 
