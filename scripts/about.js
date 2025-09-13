@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const newsletterForm = document.getElementById("newsletter-form");
   const newsletterMessage = document.getElementById("newsletter-message");
 
-  // Navigation
+  Navigation
   const menuToggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector("nav");
 
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       question: "Is it free to use?",
       answer:
-        "Yes! ReadQuest is completely free for both readers and writers. We believe in making quality content accessible to everyone.",
+        "Yes! ReadQuest is NOT completely free for both readers and writers. We believe in making quality content accessible to everyone.",
     },
     {
       question: "How can I grow my audience?",
@@ -49,9 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "Engage with the community, read consistently, use relevant tags, and share your content on social media. Our platform helps promote quality content to interested readers.",
     },
     {
-      question: "What makes VerbaSphere different?",
+      question: "What makes ReadQuest different?",
       answer:
-        "We combine modern technology with a focus on community. Our platform offers advanced writing tools, AI-powered recommendations, and meaningful connections between writers and readers.",
+        "We combine modern technology with a focus on growing readers. Our platform offers advanced reading tools and AI-powered recommendations",
     },
   ];
 
@@ -89,9 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 width: 100%;
                 padding: 0.8rem;
                 margin-bottom: 0.5rem;
-                background: rgba(104, 223, 227, 0.1);
+                background: rgba(131, 217, 220, 0.1);
                 border: 1px solid var(--navy);
-                color: var(--offwhite);
+                color: var(--black);
                 border-radius: 5px;
                 cursor: pointer;
                 transition: all 0.3s ease;
@@ -122,8 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p style="margin-top: 0.5rem;">${pair.answer}</p>
             </div>
             <button class="back-btn" style="
-                background: var(--black);
-                color: var(--black);
+                background: var(--navy);
+                color: var(--offwhite);
                 border: none;
                 padding: 0.5rem 1rem;
                 border-radius: 5px;
