@@ -123,8 +123,13 @@
       overflow-y: auto;
       display: none;
       z-index: 1000;
-    }
+      /* background-color: red; */
 
+    }
+    .settings-panel{
+      display:none;
+      /* background-color: red; */
+    }
     .settings-panel h3,
     .chapters-panel h3 {
       margin-top: 0;
@@ -238,6 +243,7 @@
     const nextChapterBtn = document.getElementById("nextChapter");
     const saveBtn = document.getElementById("saveBtn");
     const saveFab = document.getElementById("saveFab");
+    const hiddenSection = document.querySelector('.settings-panel')
 
     // Example book chapters
     const chapters = [
@@ -256,7 +262,7 @@
       readingContent.innerHTML = "<p>" + chapters[index].text + "</p>";
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-
+    // hiddenSection.style.display = none;
     // Populate chapter list
     const chapterList = document.getElementById("chapterList");
     chapters.forEach((ch, i) => {
