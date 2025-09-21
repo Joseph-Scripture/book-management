@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./styles/profile-page.css" rel="stylesheet">
-
-  <title>Document</title>
+  <title>User Profile</title>
+  
 </head>
-<body>
-
 <body>
   <div class="main-content">
     <!-- Top navbar -->
@@ -17,7 +15,7 @@
         <!-- Brand -->
         <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#!" target="_blank">User profile</a>
         <!-- Form -->
-        <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+        <form class="navbar-search navbar-search-dark form-inmr-3 d-none d-md-flex ml-lg-auto">
           <div class="form-group mb-0">
             <div class="input-group input-group-alternative">
               <div class="input-group-prepend">
@@ -33,15 +31,16 @@
             <a class="nav-link pr-0" href="#!" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
-                   <img alt="Image placeholder" src="./images/profile-pic/profile-pic.jpg">
+                   <img alt="Image placeholder" id="nav-profile-image" src="./images/profile-pic/profile-pic.jpg">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold">Emma</span>
+                  <span class="mb-0 text-sm font-weight-bold" id="nav-username">Emma</span>
                 </div>
               </div>
             </a>
+            
             <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
-              <div class=" dropdown-header noti-title">
+              <div class=" dropdown-header noti-title"> 
                 <h6 class="text-overflow m-0">Welcome!</h6>
               </div>
               <a href="#!" class="dropdown-item">
@@ -61,7 +60,7 @@
                 <span>Support</span>
               </a>
               <div class="dropdown-divider"></div>
-              <a href="#!!" class="dropdown-item">
+              <a href="#!!" class="dropdown-item" id="logout-btn">
                 <i class="ni ni-user-run"></i>
                 <span>Logout</span>
               </a>
@@ -78,9 +77,9 @@
       <div class="container-fluid d-flex align-items-center">
         <div class="row">
           <div class="col-lg-7 col-md-10">
-            <h1 class="display-2 text-white">Hello Emma</h1>
+            <h1 class="display-2 text-white">Hello<span id="header-username">Emma</span></h1>
             <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your books</p>
-            <a href="#!!" class="btn btn-info">Edit profile</a>
+            <a href="#!" id="edit-profile-btn" class="btn btn-info">Edit profile</a>
           </div>
         </div>
       </div>
@@ -94,7 +93,7 @@
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                   <a href="#!">
-                    <img src="./images/profile-pic/profile-pic.jpg" class="rounded-circle">
+                    <img id="profile-image" src="./images/profile-pic/profile-pic.jpg" class="rounded-circle">
                   </a>
                 </div>
               </div>
@@ -102,7 +101,6 @@
             <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
               <div class="d-flex justify-content-between">
                 <a href="#!" class="btn btn-sm btn-info mr-4">Active</a>
-                <!-- <a href="#!" class="btn btn-sm btn-default float-right">Message</a> -->
               </div>
             </div>
             <div class="card-body pt-0 pt-md-4">
@@ -113,10 +111,10 @@
                       <span class="heading">22</span>
                       <span class="description">Books read</span>
                     </div>
-                    <div>
+                    <!-- <div>
                       <span class="heading">10</span>
                       <span class="description">Books</span>
-                    </div>
+                    </div> -->
                     <div>
                       <span class="heading">10</span>
                       <span class="description">Books</span>
@@ -124,22 +122,14 @@
                   </div>
                 </div>
               </div>
-              <div class="text-center">
-                <h3>
-                  Emma<span class="font-weight-light">, 27</span>
-                </h3>
-                <div class="h5 font-weight-300">
-                  <i class="ni location_pin mr-2"></i>Bamenda, Cameroon
+              <div class="text-center mt-4">
+                <h5>Profile Image</h5>
+                <div class="image-upload-container">
+                  <input type="file" id="profile-image-input" accept="image/*" class="d-none">
+                  <button class="btn btn-sm btn-primary" id="upload-image-btn">Upload New Image</button>
+                  <button class="btn btn-sm btn-danger" id="delete-image-btn">Remove Current Image</button>
+                  <div id="upload-status" class="upload-status"></div>
                 </div>
-                <div class="h5 mt-4">
-                  <i class="ni business_briefcase-24 mr-2"></i>Software Engineer - BitsValley
-                </div>
-                <div>
-                  <i class="ni education_hat mr-2"></i>BitsValley
-                </div>
-                <hr class="my-4">
-                <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own books.</p>
-                <a href="#!">Show more</a>
               </div>
             </div>
           </div>
@@ -157,20 +147,20 @@
               </div>
             </div>
             <div class="card-body">
-              <form>
+              <form id="profile-form">
                 <h6 class="heading-small text-muted mb-4">User information</h6>
                 <div class="pl-lg-4">
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-username">Username</label>
-                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="emma237">
+                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="emma237" disabled>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">Email address</label>
-                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="emma@gmail.com">
+                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="emma@gmail.com" disabled>
                       </div>
                     </div>
                   </div>
@@ -178,13 +168,13 @@
                     <div class="col-lg-6">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-first-name">First name</label>
-                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" value="Emmma">
+                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" value="Emmma" disabled>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-last-name">Last name</label>
-                        <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="Doe">
+                        <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="Doe" disabled>
                       </div>
                     </div>
                   </div>
@@ -197,7 +187,7 @@
                     <div class="col-md-12">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-address">Address</label>
-                        <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="Bamenda street 12" type="text">
+                        <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="Bamenda street 12" type="text" disabled>
                       </div>
                     </div>
                   </div>
@@ -205,30 +195,38 @@
                     <div class="col-lg-4">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-city">City</label>
-                        <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="Bamenda">
+                        <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="Bamenda" disabled>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-country">Country</label>
-                        <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="Cameroon">
+                        <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="Cameroon" disabled>
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="form-group">
-                        <label class="form-control-label" for="input-country">Postal code</label>
-                        <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code">
+                        <label class="form-control-label" for="input-phone">Phone number</label>
+                        <input type="text" id="input-phone" class="form-control form-control-alternative" placeholder="Phone number" value="" disabled>
                       </div>
                     </div>
                   </div>
                 </div>
-                <hr class="my-4">
+                <hr class='my-4'>
                 <!-- Description -->
                 <h6 class="heading-small text-muted mb-4">About me</h6>
                 <div class="pl-lg-4">
                   <div class="form-group focused">
-                    <label>About Me</label>
-                    <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful profile page for ReadQuest</textarea>
+                    <label>Bio</label>
+                    <textarea rows="4" id="input-bio" class="form-control form-control-alternative" placeholder="A few words about you ..." disabled>A beautiful profile page for ReadQuest</textarea>
+                  </div>
+                </div>
+                <div class="pl-lg-4 d-none" id="form-buttons">
+                  <div class="row">
+                    <div class="col text-right">
+                      <button type="button" class="btn btn-secondary" id="cancel-edit">Cancel</button>
+                      <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
                   </div>
                 </div>
               </form>
@@ -247,6 +245,7 @@
       </div>
     </div>
   </footer>
-</body>
+
+  <script src="./scripts/userProfileImp"></script>
 </body>
 </html>
