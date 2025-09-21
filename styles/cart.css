@@ -7,9 +7,11 @@ body {
     margin: 0;
     padding: 0;
 }
-.container {
-    max-width: 600px;
+#content .container{
+    max-width: 50%;
     margin: 30px auto;
+}
+#content .container {
     background: #fff;
     padding: 2em;
     border-radius: 8px;
@@ -86,5 +88,26 @@ button:hover {
 }
 
 /* responsiveness */
+@media (max-width:799px){
+    #content{
+        max-width: 80%;
+    }
+}
+
 @media (max-width:499px) {
+    #content{
+        max-width: 100%;
+    }
+    body{
+        padding: 20px;
+    }
+    .info{
+        flex-direction: column;
+    }
+    .info input{
+        width: 100%;
+    }
+    .pay img{
+        width: 100%;
+    }
 }
