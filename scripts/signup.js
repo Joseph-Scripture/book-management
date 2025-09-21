@@ -65,7 +65,7 @@ form.addEventListener('submit', async (event) => {
     return; // Stop if validation fails
   }
 
-  const API_URL = "https://53911fcfda7e.ngrok-free.app";
+  const API_URL = "http://127.0.0.1:8080";
   const apiUrl = `${API_URL}/user/register`;
   
   // Get values at submission time

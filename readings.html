@@ -1,50 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read Quest - Reading</title>
-    <link rel="stylesheet" href="reading.css">
-    <!-- If using epub.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/epubjs/0.16.0/epub.min.css">
-    <style>
-        #book-container {
-            width: 80%;
-            margin: 20px auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Page</title>
+  <!-- Load PDF.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111;
+      color: white;
+      padding: 10px 20px;
+    }
+
+    .navbar nav a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .search {
+      padding: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    /* Chapter Header */
+    .chapter-header {
+      background: white;
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .chapter-header h1 {
+      font-size: 22px;
+      margin: 10px 0;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: gray;
+      margin: 10px 0;
+    }
+
+    /* Reading Content */
+    .content {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.8;
+      font-size: 18px;
+      background: white;
+      border-radius: 8px;
+      transition: background 0.3s, color 0.3s, font-size 0.3s, line-height 0.3s;
+    }
+
+    /* PDF Container */
+    .pdf-container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #pdf-canvas {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .pdf-controls {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Floating Buttons */
+    .floating-btns {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .fab {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .purple { background: purple; }
+    .green { background: green; }
+    .red { background: crimson; }
+    .blue { background: dodgerblue; }
+
+    /* Panels */
+    .settings-panel,
+    .chapters-panel {
+      position: fixed;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 280px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1001;
+    }
+
+    .settings-panel {
+      right: 80px;
+      bottom: 180px;
+    }
+
+    .chapters-panel {
+      right: 80px;
+      bottom: 120px;
+    }
+
+    .settings-panel h3,
+    .chapters-panel h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .settings-panel label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    .chapters-panel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .chapters-panel li {
+      padding: 8px;
+      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .chapters-panel li:hover {
+      background: #f0f0f0;
+    }
+
+    /* File upload */
+    .file-upload {
+      margin: 20px auto;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .file-upload-btn {
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Dark mode */
+    .dark-mode {
+      background: #222 !important;
+      color: #f1f1f1 !important;
+    }
+
+    .dark-mode .content {
+      background: #333 !important;
+      color: #f1f1f1 !important;
+    }
+
+    .dark-mode .pdf-container {
+      background: #333 !important;
+    }
+
+    .dark-mode .settings-panel,
+    .dark-mode .chapters-panel {
+      background: #333 !important;
+      color: #f1f1f1 !important;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Reading: [Book Title]</h1>
-        <a href="#">Back to Library</a>
-    </header>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">📚 MyLibrary</div>
+    <nav>
+      <a href="#">Library</a>
+    </nav>
+    <input type="text" placeholder="Search story title, author..." class="search">
+  </header>
 
-    <main>
-        <div id="book-container">
-            <!-- Book content will be rendered here -->
-        </div>
+  <!-- File Upload -->
+  <div class="file-upload">
+    <input type="file" id="pdfFile" accept=".pdf" style="display: none;">
+    <button class="file-upload-btn" onclick="document.getElementById('pdfFile').click()">
+      📁 Upload PDF File
+    </button>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">
+      Or use the demo chapters below
+    </p>
+  </div>
 
-        <div id="navigation">
-            <button id="prev-page">Previous</button>
-            <button id="next-page">Next</button>
-            <span id="progress">Page 1 / Total Pages</span>
-        </div>
+  <!-- Chapter Header -->
+  <section class="chapter-header">
+    <h1 id="bookTitle">How To Talk To Anyone</h1>
+    <h3 id="chapterTitle">Chapter 1</h3>
+    <div class="meta">
+      <span>📅 Updated: 2025-01-03</span>
+      <span>👁️ 11,643 Views</span>
+    </div>
+  </section>
 
-        <div id="settings">
-            <button id="font-size-increase">+</button>
-            <button id="font-size-decrease">-</button>
-        </div>
-    </main>
+  <!-- PDF Viewer -->
+  <div class="pdf-container" id="pdfContainer" style="display: none;">
+    <canvas id="pdf-canvas"></canvas>
+    <div class="pdf-controls">
+      <button class="btn blue" id="prevPage">← Previous Page</button>
+      <span>Page <span id="currentPage">1</span> of <span id="totalPages">0</span></span>
+      <button class="btn blue" id="nextPage">Next Page →</button>
+    </div>
+  </div>
 
-    <footer>
-        <p>&copy; 2024 Read Quest</p>
-    </footer>
+  <!-- Reading Content -->
+  <article class="content" id="readingContent">
+    <p>Chapter 1 How to Make your smile magically different...</p>
+  </article>
 
-    <!-- If using epub.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/epubjs/0.16.0/epub.min.js"></script>
-    <script src="reading.js"></script>
+  <!-- Floating Buttons -->
+  <div class="floating-btns">
+    <button class="fab purple" id="settingsFab">⚙</button>
+    <button class="fab green" id="chaptersFab">📑</button>
+    <button class="fab red" id="saveFab">❤️</button>
+    <button class="fab blue" id="scrollTop">⬆</button>
+  </div>
+
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <h3>⚙ Reader Settings</h3>
+    <label>Font Size:</label>
+    <input type="range" id="fontSizeControl" min="14" max="28" value="18">
+
+    <label>Line Height:</label>
+    <input type="range" id="lineHeightControl" min="1.2" max="2.5" step="0.1" value="1.8">
+
+    <label>
+      <input type="checkbox" id="darkModeToggle"> Dark Mode
+    </label>
+  </div>
+
+  <!-- Chapters Panel -->
+  <div class="chapters-panel" id="chaptersPanel">
+    <h3>📑 Chapters</h3>
+    <ul id="chapterList"></ul>
+  </div>
+
+  <script>
+    // PDF.js configuration
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    const scrollBtn = document.getElementById("scrollTop");
+    const settingsFab = document.getElementById("settingsFab");
+    const settingsPanel = document.getElementById("settingsPanel");
+    const chaptersFab = document.getElementById("chaptersFab");
+    const chaptersPanel = document.getElementById("chaptersPanel");
+    const readingContent = document.getElementById("readingContent");
+    const chapterTitle = document.getElementById("chapterTitle");
+    const saveFab = document.getElementById("saveFab");
+    const pdfFileInput = document.getElementById("pdfFile");
+    const pdfContainer = document.getElementById("pdfContainer");
+    const pdfCanvas = document.getElementById("pdf-canvas");
+    const prevPageBtn = document.getElementById("prevPage");
+    const nextPageBtn = document.getElementById("nextPage");
+    const currentPageEl = document.getElementById("currentPage");
+    const totalPagesEl = document.getElementById("totalPages");
+
+    // PDF variables
+    let pdfDoc = null;
+    let currentPdfPage = 1;
+    let isPdfMode = false;
+    const ctx = pdfCanvas.getContext('2d');
+
+    // Example book chapters
+    const chapters = [
+      { title: "Chapter 1", text: "How to make your smile magically different. IN 2001, one of the Dale Carnegie's six musts on How to win friends and influence people was SMILE. His edict has been echoed each decade by practically every communications guru who ever put pen to paper or mouth to microphone. However, at the turn of the millennium it's high time we reexamine the role of the smile in high-level human relations. When you dig deeper into this dictum, you'll find that a 2001 quick smile doesn't work especially nowadays. The old fashion instant grin carries no weight with today's sophisticated crowd. Look at world leaders, negotiators and corporate giants. Not a smiling sycophant among them. Key players in all works of life enrich their smile, so when it does erupt, it has more potency and the world smiles with them...." },
+      { title: "Chapter 2", text: "How to Strike Everyone as Intelligent and Insightful by using your eyes..." },
+      { title: "Chapter 3", text: "How to Use your Eyes to make Someone Fall in Love with you..." },
+      { title: "Chapter 4", text: "How to Look like a Big Winner Wherever you go..." }
+    ];
+
+    let currentChapter = 0;
+
+    // Close panels when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.settings-panel') && !event.target.closest('#settingsFab')) {
+        settingsPanel.style.display = 'none';
+      }
+      if (!event.target.closest('.chapters-panel') && !event.target.closest('#chaptersFab')) {
+        chaptersPanel.style.display = 'none';
+      }
+    });
+
+    // Load PDF file
+    pdfFileInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file && file.type === 'application/pdf') {
+        loadPdfFile(file);
+      } else {
+        alert('Please select a valid PDF file.');
+      }
+    });
+
+    async function loadPdfFile(file) {
+      try {
+        showLoading(true);
+        isPdfMode = true;
+        
+        const arrayBuffer = await file.arrayBuffer();
+        pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        
+        totalPagesEl.textContent = pdfDoc.numPages;
+        currentPdfPage = 1;
+        currentPageEl.textContent = currentPdfPage;
+        
+        // Show PDF container, hide text content
+        pdfContainer.style.display = 'block';
+        readingContent.style.display = 'none';
+        
+        await renderPdfPage(currentPdfPage);
+        showLoading(false);
+        
+      } catch (error) {
+        console.error('Error loading PDF:', error);
+        alert('Error loading PDF file. Please try another file.');
+        showLoading(false);
+      }
+    }
+
+    async function renderPdfPage(pageNum) {
+      if (!pdfDoc || pageNum < 1 || pageNum > pdfDoc.numPages) return;
+      
+      showLoading(true);
+      const page = await pdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.5 });
+      
+      pdfCanvas.width = viewport.width;
+      pdfCanvas.height = viewport.height;
+      
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport
+      };
+      
+      await page.render(renderContext).promise;
+      currentPdfPage = pageNum;
+      currentPageEl.textContent = currentPdfPage;
+      
+      // Update button states
+      prevPageBtn.disabled = currentPdfPage <= 1;
+      nextPageBtn.disabled = currentPdfPage >= pdfDoc.numPages;
+      
+      showLoading(false);
+    }
+
+    function showLoading(show) {
+      // You can add a loading spinner here if needed
+      if (show) {
+        console.log('Loading...');
+      }
+    }
+
+    // PDF navigation
+    prevPageBtn.addEventListener('click', () => {
+      if (currentPdfPage > 1) {
+        renderPdfPage(currentPdfPage - 1);
+      }
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+      if (currentPdfPage < pdfDoc.numPages) {
+        renderPdfPage(currentPdfPage + 1);
+      }
+    });
+
+    // Original chapter loading functions
+    function loadChapter(index) {
+      if (index < 0 || index >= chapters.length) return;
+      
+      // Switch to text mode
+      isPdfMode = false;
+      pdfContainer.style.display = 'none';
+      readingContent.style.display = 'block';
+      
+      currentChapter = index;
+      chapterTitle.textContent = chapters[index].title;
+      readingContent.innerHTML = "<p>" + chapters[index].text + "</p>";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Populate chapter list
+    const chapterList = document.getElementById("chapterList");
+    chapters.forEach((ch, i) => {
+      const li = document.createElement("li");
+      li.textContent = ch.title;
+      li.addEventListener("click", () => {
+        loadChapter(i);
+        chaptersPanel.style.display = "none";
+      });
+      chapterList.appendChild(li);
+    });
+
+    // Auto-scroll to next chapter (only for text mode)
+    window.addEventListener("scroll", () => {
+      if (!isPdfMode && window.innerHeight + window.scrollY >= document.body.offsetHeight - 2) {
+        loadChapter(currentChapter + 1);
+      }
+    });
+
+    // Save chapter
+    function saveProgress() {
+      if (isPdfMode) {
+        localStorage.setItem("savedPdfPage", currentPdfPage);
+        alert(`✅ Saved progress at page ${currentPdfPage}`);
+      } else {
+        localStorage.setItem("savedChapter", currentChapter);
+        alert(`✅ Saved progress at ${chapters[currentChapter].title}`);
+      }
+    }
+    saveFab.addEventListener("click", saveProgress);
+
+    // Restore saved progress
+    const savedChapter = localStorage.getItem("savedChapter");
+    const savedPdfPage = localStorage.getItem("savedPdfPage");
+    
+    if (savedChapter !== null) {
+      loadChapter(parseInt(savedChapter));
+    } else if (savedPdfPage !== null) {
+      // If we have saved PDF page but no PDF loaded, keep text mode
+      currentPdfPage = parseInt(savedPdfPage);
+    } else {
+      loadChapter(0);
+    }
+
+    // Scroll to top
+    scrollBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Toggle panels
+    function toggleSettings() {
+      settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
+      chaptersPanel.style.display = "none";
+    }
+
+    function toggleChapters() {
+      chaptersPanel.style.display = chaptersPanel.style.display === "block" ? "none" : "block";
+      settingsPanel.style.display = "none";
+    }
+
+    settingsFab.addEventListener("click", toggleSettings);
+    chaptersFab.addEventListener("click", toggleChapters);
+
+    // Font size control
+    document.getElementById("fontSizeControl").addEventListener("input", (e) => {
+      readingContent.style.fontSize = e.target.value + "px";
+    });
+
+    // Line height control
+    document.getElementById("lineHeightControl").addEventListener("input", (e) => {
+      readingContent.style.lineHeight = e.target.value;
+    });
+
+    // Dark mode toggle
+    document.getElementById("darkModeToggle").addEventListener("change", (e) => {
+      document.body.classList.toggle("dark-mode", e.target.checked);
+    });
+
+    // Load initial chapter
+    loadChapter(0);
+  </script>
 </body>
 </html>
