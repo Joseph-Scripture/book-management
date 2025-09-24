@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #579ce6 0%, #3e76c4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .book-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .book-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #007bff;
+            border: 2px solid #007bff;
+        }
+
+        .btn-outline:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        .loading {
+            display: none;
+            color: #666;
+        }
+
+        .error-message {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✓</div>
+        <h1>Payment Successful!</h1>
+        <p>Thank you for your purchase. Your payment has been processed successfully.</p>
+        
+        <div class="book-info" id="bookInfo">
+            <h3>Purchase Details</h3>
+            <p><strong>Book:</strong> <span id="bookTitle">Loading...</span></p>
+            <p><strong>Access Duration:</strong> <span id="accessDuration">Loading...</span> days</p>
+            <p><strong>Status:</strong> <span style="color: #28a745;">Active</span></p>
+        </div>
+
+        <p>You now have access to read the book. Click the button below to start reading immediately.</p>
+
+        <div class="button-group">
+            <button class="btn btn-success" id="readNowBtn">Start Reading Now</button>
+            <a href="library.html" class="btn btn-outline">Back to Library</a>
+        </div>
+
+        <div class="loading" id="loadingMessage">
+            <p>Preparing your book...</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <script>
+        // API configuration
+        const API_BASE_URL = 'http://127.0.0.1:8080/api';
+        const BOOKS_API_URL = `${API_BASE_URL}/books`;
+
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookId = urlParams.get('bookId');
+        const durationDays = urlParams.get('durationDays') || '30';
+
+        // DOM elements
+        const bookTitleEl = document.getElementById('bookTitle');
+        const accessDurationEl = document.getElementById('accessDuration');
+        const readNowBtn = document.getElementById('readNowBtn');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Function to get JWT token
+        function getAuthToken() {
+            return localStorage.getItem('jwt') || localStorage.getItem('token');
+        }
+
+        // Function to create headers with authentication
+        function createHeaders() {
+            const token = getAuthToken();
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            return headers;
+        }
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            loadingMessage.style.display = 'none';
+        }
+
+        // Get book details
+        async function getBookDetails() {
+            if (!bookId) {
+                showError('No book information available.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BOOKS_API_URL}?page=0&size=100`, {
+                    method: 'GET',
+                    headers: createHeaders()
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch book details');
+                }
+
+                const data = await response.json();
+                const books = data.content || [];
+                const book = books.find(b => b.id == bookId);
+
+                if (book) {
+                    bookTitleEl.textContent = book.title;
+                } else {
+                    bookTitleEl.textContent = 'Unknown Book';
+                }
+
+                accessDurationEl.textContent = durationDays;
+
+            } catch (error) {
+                console.error('Error fetching book details:', error);
+                bookTitleEl.textContent = 'Book (details unavailable)';
+            }
+        }
+
+        // Redirect to reading page
+        function goToReadingPage() {
+            if (!bookId) {
+                showError('No book selected.');
+                return;
+            }
+
+            loadingMessage.style.display = 'block';
+            readNowBtn.disabled = true;
+
+            // Redirect immediately to reading page
+            window.location.href = `readings.html?bookId=${bookId}`;
+        }
+
+        // Event listeners
+        readNowBtn.addEventListener('click', goToReadingPage);
+
+        // Initialize page - REMOVED LOGIN CHECK since user is already authenticated
+        document.addEventListener('DOMContentLoaded', function() {
+            getBookDetails();
+
+            // Auto-redirect to reading page after 8 seconds (optional)
+            setTimeout(() => {
+                if (bookId) {
+                    loadingMessage.style.display = 'block';
+                    loadingMessage.innerHTML = '<p>Redirecting you to the book...</p>';
+                    setTimeout(() => {
+                        window.location.href = `readings.html?bookId=${bookId}`;
+                    }, 2000);
+                }
+            }, 8000);
+        });
+    </script>
+</body>
+</html>

@@ -55,17 +55,17 @@ window.removeFromCart = function(idx) {
     renderCart();
 };
 
-document.getElementById('payment-form').onsubmit = function(e) {
-    e.preventDefault();
-    if (cart.length === 0) {
-        document.getElementById('payment-message').textContent = "Cart is empty!";
-        return;
-    }
-    document.getElementById('payment-message').textContent = "Payment successful! Thank you.";
-    cart = [];
-    renderCart();
-    this.reset();
-};
+// document.getElementById('payment-form').onsubmit = function(e) {
+//     e.preventDefault();
+//     if (cart.length === 0) {
+//         document.getElementById('payment-message').textContent = "Cart is empty!";
+//         return;
+//     }
+//     document.getElementById('payment-message').textContent = "Payment successful! Thank you.";
+//     cart = [];
+//     renderCart();
+//     this.reset();
+// };
 
 renderBooks();
 renderCart();
