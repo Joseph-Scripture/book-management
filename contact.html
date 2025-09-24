@@ -9,14 +9,14 @@
 <body>
     <main>
         <div class="container">
-            <form>
+            <form id="contactForm">
                 <h1>Contact us form</h1>
                 <input type="text" id="firstName" placeholder="First Name" required>
                 <input type="text" id="lastName" placeholder="Last Name" required>
                 <input type="email" id="email" placeholder="Email" required>
-                <input type="text" id="mobile" placeholder="Mobile" required>
+                <input type="text" id="subject" placeholder="subject" required>
                 <h4>Type your message here...</h4>
-                <textarea required></textarea>
+                <textarea id="message" name="message" required></textarea>
                 <input type="Submit" value="Send" id="button">
                 <div class="footerContainer">
         
@@ -27,4 +27,6 @@
     <img src="book-management/images/social.png" alt="whatsapp logo" class="footer-image">
    </footer> -->
 </body>
+<script src="/scripts/contactImpl.js"></script>
 </html>
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <link href="./styles/transactions.css"  rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <!-- <div class="logo">Back</div> -->
+            <a  class="logo" href="profile-page.html">Back to profile</a>
+            <div class="user-info">
+                <!-- <span id="username">User</span> -->
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">Transaction History</h1>
+
+        <div class="transactions-container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="statusFilter">Payment Status</label>
+                    <select id="statusFilter">
+                        <option value="all">All Statuses</option>
+                        <option value="PAID">Completed</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="FAILED">Failed</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFilter">Date Range</label>
+                    <input type="date" id="dateFrom">
+                    <span>to</span>
+                    <input type="date" id="dateTo">
+                </div>
+                <button class="search-btn" id="applyFilters">Apply Filters</button>
+                <!-- <span id="username">User</span> -->
+            </div>
+
+            <div id="transactionsContent">
+                <div class="loading">Loading transactions...</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ReadQuest Library Management System &copy; 2025. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts/transactions.js"></script>
+</body>
+</html>

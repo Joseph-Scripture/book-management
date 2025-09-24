@@ -512,3 +512,83 @@ h3{
     .details-close-btn { display: none; }
     .book-grid { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* Access Type Badges */
+.access-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.access-badge.free {
+    background-color: #1cc88a;
+}
+
+.access-badge.paid {
+    background-color:#2563eb;
+}
+
+.book-card-image {
+    position: relative;
+}
+
+.access-type {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+.access-type.free {
+    background-color: #1cc88a;
+}
+
+.access-type.paid {
+    background-color: #1cc88a;
+}
+
+/* ISBN Display */
+.isbn-display {
+    font-size: 14px;
+    color: #e8eee8;
+    margin-top: 8px;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* No Books Message */
+.no-books-message {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-style: italic;
+    grid-column: 1 / -1;
+}
+
+.access-badge.owned {
+    background-color: #28a745;
+    color: white;
+}
+
+.access-type.owned {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.read-now-btn.owned {
+    background-color: #dbeddf;
+}
+
+.read-now-btn.owned:hover {
+    background-color: #5a9567;
+}
