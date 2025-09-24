@@ -276,3 +276,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     updateUserProfile("Emma");
 });
+
+document.getElementById('read-now-btn').addEventListener('click', () => {
+    window.location.href = 'Reading page for RQ.html';
+});
+
+document.getElementById('reserve-btn').addEventListener('click', () => {
+    window.location.href = 'cart.html';
+});
+
+document.getElementById('home-index-btn').addEventListener('click', () => {
+    window.location.href = 'index.html';
+});
