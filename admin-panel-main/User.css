@@ -1,0 +1,192 @@
+.datauser-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 1em 0;
+}
+.input-container{
+  position: relative;
+  margin-bottom: 1.2em;
+}
+
+
+.user-content {
+  background: white;
+  margin: 30px 10px;
+}
+
+.user-title {
+  border-bottom: 1px solid #ececec;
+  padding: 20px 15px;
+}
+
+.container-add-user {
+  margin-top: 25px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; 
+}
+
+.btn-adduser {
+  background-color: #006df0;
+  border: 1px solid #006df0;
+  padding: 8px;
+  border-radius: 5px;
+}
+.btn-adduser:hover {
+  background: #0062d9;
+  border: 1px solid #0062d9;
+}
+.btn-adduser a {
+  color: white;
+}
+
+.table {
+  overflow-x: hidden; 
+}
+
+.table table {
+  width: 100%; 
+  border-collapse: collapse;
+  text-align: center;
+  border: 1px solid #ddd;
+  margin: 25px 0; 
+}
+
+.table table th {
+  padding: 15px 10px; 
+  border: 1px solid #ddd;
+}
+
+.table table td {
+  padding: 15px 10px;
+  border: 1px solid #ddd;
+}
+
+.btn-opsi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-opsi a {
+  color: black;
+  font-size: 20px;
+}
+
+.btn-del-pet {
+  padding: 10px;
+  background: white;
+  border: 1px solid #8c8c8c;
+  transition: 0.3s all ease;
+  border-radius: 3px;
+}
+
+.btn-del-pet:hover {
+  background: #d4d4d4;
+}
+
+#username,
+button {
+  padding: 0.7em;
+  border: 1px solid navy;
+  border-radius: 5px;
+  outline: none;
+  font-size: 1rem; 
+}
+
+button {
+  color: white;
+  background-color: navy;
+  cursor: pointer;
+  transition: all 0.3s ease; 
+  width: 100%;
+  padding-right: 0.8em;
+}
+
+button:hover {
+  background-color: #006df0;
+}
+.clear{
+  position: absolute;
+  font-size: 2rem;
+  transform: translate(-25px, 2px);
+  color: #0062d9;
+  cursor: pointer;
+}
+.user-heading {
+  background: white;
+  margin: 10px 10px;
+  padding: 20px;
+  margin: 5px 10px 35px 10px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .user-content, .user-heading {
+    margin: 15px 5px; 
+  }
+
+  .container-add-user {
+    flex-direction: column;
+    align-items: stretch; 
+  }
+
+  #username, button {
+    width: 100%;
+  }
+}
+
+/* For Mobile Phones */
+@media screen and (max-width: 600px) {
+  .user-heading h2, .user-title h2 {
+    font-size: 1.2rem; 
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+
+  .table td {
+    display: block;
+    text-align: right; 
+    padding-left: 50%; 
+    position: relative;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .table td:last-child {
+    border-bottom: none; 
+  }
+
+  .table td::before {
+    content: attr(data-label); 
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    padding-right: 10px;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .table td[data-label="Action"] {
+    padding-left: 0;
+    text-align: center;
+  }
+  .table td[data-label="Action"]::before {
+    display: none; 
+  }
+}

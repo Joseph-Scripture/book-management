@@ -29,14 +29,14 @@ menuBar.addEventListener("click", function () {
 
 
 
-const inputValue = document.getElementById('username').value;
+const inputValue = document.getElementById('username');
 const searchBtn = document.getElementById('search-btn');
 const userId = document.getElementById('userId');
 const userName = document.getElementById('userName');
 const userEmail = document.getElementById('email');
 const deleteBtn = document.querySelector('.bx-wrench');
 
-
+const clear = document.querySelector('.clear')
 
 
 
@@ -77,21 +77,17 @@ async function getUser(inputValue) {
     return null; 
   }
 }
-
-// How to use the function:
-// const userData = await getUser("some-user-id");
-// if (userData) {
-//   // Do something with the user's data
-// }
+// Clear input text
+clear.addEventListener('click', ()=> {
+  usernameInput.value = '';
+})
 
 
-
-// Get a reference to the input element itself, not its value yet.
 const usernameInput = document.getElementById('username');
 
 searchBtn.addEventListener('click', async () => { 
 
-  const inputValue = usernameInput.value; 
+  const inputValue = usernameInput.value.trim(); 
 
   if (!inputValue) {
     alert('Please enter a username to search for.');
@@ -112,3 +108,11 @@ searchBtn.addEventListener('click', async () => {
     userEmail.textContent = '';
   }
 });
+
+// Logout
+const logout = document.querySelector('.logout')
+logout.addEventListener('click', ()=>{
+  localStorage.removeItem('token');
+  alert('Successfully logged out');
+  window.location.href = '../signup.html';
+})
