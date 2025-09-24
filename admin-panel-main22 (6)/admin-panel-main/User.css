@@ -1,0 +1,123 @@
+.datauser-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 1em 0;
+}
+
+.user-heading{
+    background:white;
+    margin:10px  10px;
+    padding: 20px;
+    margin: 5px 10px 35px 10px;
+}
+
+
+.user-content{
+    background: white;
+    margin: 30px 10px;
+}
+
+.user-title{
+    border-bottom: 1px solid #ececec;
+    padding: 20px 15px;
+}
+
+.container-add-user{
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-adduser{
+    background-color: #006df0;
+    border: 1px solid #006df0;
+    padding: 8px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+.btn-adduser:hover{
+    background: #0062d9;
+    border: 1px solid #0062d9;
+}
+.btn-adduser a{
+    color: white;
+}
+
+.table table{
+    width: 98%;
+    border-collapse: collapse;
+    text-align: center;
+    border: 1px solid #ddd;
+    margin: 25px 10px;
+}
+
+.table table th{
+    padding: 15px 0;
+    border: 1px solid #ddd;
+}
+
+.table table td{
+    padding: 15px 10px;
+    
+    border: 1px solid #ddd;
+}
+
+.image-user-tab{
+    width: 100px;
+}
+
+.image-user-tab img{
+    width: 100%;
+}
+
+.btn-opsi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-opsi a{
+    color: black;
+    font-size: 20px;
+}
+.btn-setting-pet{
+    padding: 10px;
+    background: white;
+    border:1px solid #8c8c8c;
+    transition: 0.3s all ease;
+    border-radius: 3px;
+}
+.btn-setting-pet:hover{
+    background: #d4d4d4;
+}
+.btn-del-pet{
+    padding: 10px;
+    background: white;
+    border:1px solid #8c8c8c;
+    transition: 0.3s all ease;
+    border-radius: 3px; 
+}
+
+.btn-del-pet:hover{
+    background: #d4d4d4;
+}
+#username, button{
+    padding: 0.5em;
+    border: 1px solid navy;
+    border-radius: 5px;
+    outline: none;
+
+
+}
+button{
+    color: white;
+    background-color:navy;
+    cursor: pointer;
+    transition: all 1s ease;
+}
+button:hover{
+    background-color: #006df0;
+    /* color: ; */
+}

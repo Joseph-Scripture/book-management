@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    display:flex;
+    flex-direction: column; 
+    box-sizing: border-box;
+    background-color: #E5E5E5;
+    font-family: 'Poppins', sans-serif ;
+}
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 25px;
+}
+
+.login-content{
+    display: flex;
+    flex-direction: column;
+    margin: 25px 0;
+    text-transform: uppercase;
+}
+
+.login-content h3{
+    text-align: center;
+    font-size: 24px;
+    font-family: inherit;
+}
+
+.login-content h4{ 
+    margin: 10px 0;
+    font-size: 24px;
+    font-family: inherit;
+    text-align: center;
+}
+
+
+.form-action{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+.form-action h2{
+    margin: 1.4rem 0;
+}
+
+.form-login-frame{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    width: 75%;
+    padding: 0 35px;
+}
+
+.form-login-frame label{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.input-form{
+    margin: 5px 0;
+    padding: 10px;
+    width: 100%;
+    outline: none;
+
+}
+
+.input-form:focus{
+    border-color: #007bff;
+    border: 1px solid #007bff ;
+}
+
+.select-form{
+    padding: 10px;
+    margin: 5px 0;
+}
+
+.button-login{
+    width: 100%;
+    padding: 10px;
+    background-color: #006DF0;
+    border-color: #006DF0;
+    color: white;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+    .form-action{
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
