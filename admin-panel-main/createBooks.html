@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Books</title>
+    <link rel="stylesheet" href="books.css">
+</head>
+<body>
+   <div class="crud-container">
+  <h2>Book Management</h2>
+
+  <div class="form-container">
+    <form id="book-form">
+      <h3 id="form-title">Add a New Book</h3>
+      <input type="hidden" id="book-id">
+      
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" required>
+        </div>
+        <div class="form-group">
+          <label for="author">Author</label>
+          <input type="text" id="author" required>
+        </div>
+        <div class="form-group">
+          <label for="isbn">ISBN</label>
+          <input type="text" id="isbn">
+        </div>
+        <div class="form-group">
+          <label for="genre">Genre</label>
+          <input type="text" id="genre">
+        </div>
+        <div class="form-group">
+          <label for="publishedDate">Published Date</label>
+          <input type="date" id="publishedDate">
+        </div>
+        <div class="form-group">
+          <label for="pricePerMonth">Price per Month</label>
+          <input type="number" id="pricePerMonth" step="0.01" min="0" required>
+        </div>
+        <div class="form-group">
+            <label for="numberOfPages">Pages</label>
+            <input type="number" id="numberOfPages" min="0" required>
+        </div>
+         <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" rows="3"></textarea>
+        </div>
+        <div class="form-group file-group">
+          <label for="pdf">Book PDF</label>
+          <input type="file" id="pdf" accept="application/pdf">
+        </div>
+        <div class="form-group file-group">
+          <label for="cover">Cover Image</label>
+          <input type="file" id="cover" accept="image/*">
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" id="form-submit-btn">Add Book</button>
+        <button type="button" id="cancel-edit-btn" style="display:none;">Cancel Edit</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <h3>Existing Books</h3>
+    <table id="books-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Genre</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="books-table-body">
+        </tbody>
+    </table>
+  </div>
+</div>
+<script src="createBooks.js">
+ 
+</script>
+</body>
+</html>
