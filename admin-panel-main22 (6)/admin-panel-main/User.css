@@ -121,3 +121,38 @@ button:hover{
     background-color: #006df0;
     /* color: ; */
 }
+
+
+
+.btn-suspend {
+    background-color: #ffc107;
+    color: #000;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.btn-activate {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.btn-del-pet {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-suspend:hover, .btn-activate:hover, .btn-del-pet:hover {
+    opacity: 0.8;
+}
