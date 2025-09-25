@@ -91,7 +91,7 @@ formContainer.addEventListener('submit', async (event) => {
         //   window.location.href = 'index.html';
         // }
         if (decoded && decoded.role === "ADMIN") {
-    window.location.href = 'http://127.0.0.1:5502/admin-panel-main/Dashboard.html';
+    window.location.href = 'http://127.0.0.1:5502/admin-panel-main/Dashboard.html'; 
 } else {
     window.location.href = 'index.html';
 }

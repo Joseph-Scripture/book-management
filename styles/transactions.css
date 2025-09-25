@@ -34,9 +34,9 @@
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #d4edda;
+            font-size: 1.9rem;
+            font-weight: 900;
+            color: #ecf1ed;
         }
 
         .user-info {
@@ -46,7 +46,7 @@
         }
 
         .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.316);
             border: none;
             color: white;
             padding: 8px 15px;
