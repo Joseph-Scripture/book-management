@@ -1,74 +1,510 @@
-// Scroll to top button
-document.getElementById("scrollTop").addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-<script>
-  const settingsBtn = document.querySelector(".btn.purple");
-  const modal = document.getElementById("settingsModal");
-  const closeBtn = document.getElementById("closeSettings");
-  const fontSizeInput = document.getElementById("fontSize");
-  const lineHeightInput = document.getElementById("lineHeight");
-  const toggleThemeBtn = document.getElementById("toggleTheme");
-  const content = document.querySelector(".content");
-/</script>
-  
+// PDF.js configuration
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-// Apply saved settings
-window.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("fontSize")) {
-    content.style.fontSize = localStorage.getItem("fontSize") + "px";
-    fontSizeSelect.value = localStorage.getItem("fontSize");
-  }
-  if (localStorage.getItem("fontFamily")) {
-    content.style.fontFamily = localStorage.getItem("fontFamily");
-    fontFamilySelect.value = localStorage.getItem("fontFamily");
-  }
-  if (localStorage.getItem("lineHeight")) {
-    content.style.lineHeight = localStorage.getItem("lineHeight");
-    lineHeightSelect.value = localStorage.getItem("lineHeight");
-  }
-  if (localStorage.getItem("theme")) {
-    setTheme(localStorage.getItem("theme"));
-    themeSelect.value = localStorage.getItem("theme");
-  }
-});
+    // DOM elements 
+    const scrollBtn = document.getElementById("scrollTop");
+    const settingsFab = document.getElementById("settingsFab");
+    const settingsPanel = document.getElementById("settingsPanel");
+    const saveFab = document.getElementById("saveFab");
+    const pdfContainer = document.getElementById("pdfContainer");
+    const pdfCanvas = document.getElementById("pdf-canvas");
+    const prevPageBtn = document.getElementById("prevPage");
+    const nextPageBtn = document.getElementById("nextPage");
+    const currentPageEl = document.getElementById("currentPage");
+    const totalPagesEl = document.getElementById("totalPages");
+    const loadingSpinner = document.getElementById("loadingSpinner");
+    const errorMessage = document.getElementById("errorMessage");
+    const errorText = document.getElementById("errorText");
+    const chapterHeader = document.getElementById("chapterHeader");
+    const bookTitle = document.getElementById("bookTitle");
+    const bookMeta = document.getElementById("bookMeta");
+    const bookInfo = document.getElementById("bookInfo");
+    const zoomControl = document.getElementById("zoomControl");
+    const zoomInBtn = document.getElementById("zoomIn");
+    const zoomOutBtn = document.getElementById("zoomOut");
+    const zoomLevel = document.getElementById("zoomLevel");
+    const accessDenied = document.getElementById("accessDenied");
+    const purchaseBtn = document.getElementById("purchaseBtn");
 
-// Open / Close modal
-settingsBtn.addEventListener("click", () => modal.style.display = "block");
-closeBtn.addEventListener("click", () => modal.style.display = "none");
-window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
+    // PDF variables
+    let pdfDoc = null;
+    let currentPdfPage = 1;
+    let currentScale = 1.0;
+    let currentBookId = null;
+    let currentBookData = null;
+    const ctx = pdfCanvas.getContext('2d');
 
-// Font size
-fontSizeSelect.addEventListener("change", () => {
-  content.style.fontSize = fontSizeSelect.value + "px";
-  localStorage.setItem("fontSize", fontSizeSelect.value);
-});
+    // Get book ID from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookId = urlParams.get('bookId');
+    currentBookId = bookId;
 
-// Font family
-fontFamilySelect.addEventListener("change", () => {
-  content.style.fontFamily = fontFamilySelect.value;
-  localStorage.setItem("fontFamily", fontFamilySelect.value);
-});
+    // API configuration 
+    const API_BASE_URL = 'http://127.0.0.1:8080';
+    const BOOKS_API_URL = `${API_BASE_URL}/api/books`;
+    const PAYMENTS_API_URL = `${API_BASE_URL}/api/payments`;
 
-// Line height
-lineHeightSelect.addEventListener("change", () => {
-  content.style.lineHeight = lineHeightSelect.value;
-  localStorage.setItem("lineHeight", lineHeightSelect.value);
-});
+    // Function to get JWT token from localStorage
+    function getAuthToken() {
+        return localStorage.getItem('jwt') || localStorage.getItem('token');
+    }
 
-// Theme
-themeSelect.addEventListener("change", () => {
-  setTheme(themeSelect.value);
-  localStorage.setItem("theme", themeSelect.value);
-});
+    // Function to create headers with authentication
+    function createHeaders() {
+        const token = getAuthToken();
+        const headers = {
+            'Content-Type': 'application/json'
+        };
+        
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+        
+        return headers;
+    }
 
-// Function to change theme
-function setTheme(theme) {
-  document.body.classList.remove("light-theme","dark-theme","sepia-theme","blue-theme");
-  if (theme === "dark") document.body.classList.add("dark-theme");
-  else if (theme === "sepia") document.body.classList.add("sepia-theme");
-  else if (theme === "blue") document.body.classList.add("blue-theme");
-  else document.body.classList.add("light-theme");
+    // Function to create headers for PDF stream (without Content-Type for binary data)
+    function createPdfHeaders() {
+        const token = getAuthToken();
+        const headers = {};
+        
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+        
+        return headers;
+    }
+
+    // Show loading spinner
+    function showLoading(show) {
+        loadingSpinner.style.display = show ? 'block' : 'none';
+        if (show) {
+            pdfContainer.style.display = 'none';
+            chapterHeader.style.display = 'none';
+            errorMessage.style.display = 'none';
+            accessDenied.style.display = 'none';
+        }
+    }
+
+    // Show error message
+    function showError(message) {
+        errorText.textContent = message;
+        errorMessage.style.display = 'block';
+        loadingSpinner.style.display = 'none';
+        pdfContainer.style.display = 'none';
+        chapterHeader.style.display = 'none';
+        accessDenied.style.display = 'none';
+    }
+
+    // Show access denied message
+    function showAccessDenied() {
+        accessDenied.style.display = 'block';
+        loadingSpinner.style.display = 'none';
+        pdfContainer.style.display = 'none';
+        chapterHeader.style.display = 'none';
+        errorMessage.style.display = 'none';
+    }
+
+    // Get book data from the list of books
+    async function getBookData(bookId) {
+        try {
+            const response = await fetch(`${BOOKS_API_URL}?page=0&size=100`, {
+                method: 'GET',
+                headers: createHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const books = data.content || [];
+            
+            // Find the book by ID
+            const book = books.find(b => b.id == bookId);
+            if (!book) {
+                throw new Error('Book not found in the library');
+            }
+            
+            return book;
+        } catch (error) {
+            console.error('Error fetching book data:', error);
+            throw error;
+        }
+    }
+
+    // Check if user has access to the book
+    async function checkBookAccess(bookId) {
+        try {
+            const response = await fetch(`${PAYMENTS_API_URL}/access/${bookId}`, {
+                method: 'GET',
+                headers: createHeaders()
+            });
+            
+            if (response.ok) {
+                const hasAccess = await response.json();
+                return hasAccess;
+            } else if (response.status === 403) {
+                return false;
+            } else {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Error checking book access:', error);
+            return false;
+        }
+    }
+
+    // Load book data and PDF from backend
+    async function loadBook() {
+        if (!bookId) {
+            showError('No book ID provided in URL.');
+            return;
+        }
+
+        showLoading(true);
+
+        try {
+            // Get book data
+            currentBookData = await getBookData(bookId);
+            
+            // Update page title and book info
+            document.title = `Reading: ${currentBookData.title}`;
+            bookTitle.textContent = currentBookData.title;
+            bookInfo.textContent = `${currentBookData.title} by ${currentBookData.author}`;
+            bookMeta.textContent = `By ${currentBookData.author} | ${currentBookData.numberOfPages || 'N/A'} pages | ${currentBookData.accessType === 'FREE' ? 'Free' : 'Paid'}`;
+
+            // Check if user has access
+            const hasAccess = await checkBookAccess(bookId);
+            const isFree = currentBookData.accessType === 'FREE';
+
+            if (!hasAccess && !isFree) {
+                showAccessDenied();
+                return;
+            }
+
+            // Now get the PDF reading URL
+            const readUrlResponse = await fetch(`${BOOKS_API_URL}/read/url/${bookId}`, {
+                method: 'GET',
+                headers: createHeaders()
+            });
+
+            if (!readUrlResponse.ok) {
+                if (readUrlResponse.status === 403) {
+                    showAccessDenied();
+                    return;
+                } else {
+                    throw new Error('Failed to get reading URL');
+                }
+            }
+
+            const readUrlData = await readUrlResponse.json();
+            
+            // Handle the PDF URL correctly - it should be a full URL or relative path
+            let pdfUrl;
+            if (readUrlData.pdfUrl.startsWith('http')) {
+                // If it's already a full URL, use it as is
+                pdfUrl = readUrlData.pdfUrl;
+            } else if (readUrlData.pdfUrl.startsWith('/')) {
+                // If it starts with /, prepend the base URL
+                pdfUrl = `${API_BASE_URL}${readUrlData.pdfUrl}`;
+            } else {
+                // Otherwise, assume it's relative to the API base
+                pdfUrl = `${API_BASE_URL}/api/books${readUrlData.pdfUrl.startsWith('/') ? '' : '/'}${readUrlData.pdfUrl}`;
+            }
+
+            console.log('Loading PDF from URL:', pdfUrl); // Debug log
+
+            // Load the PDF
+            await loadPdfFromUrl(pdfUrl);
+            
+            // Show the content
+            chapterHeader.style.display = 'block';
+            pdfContainer.style.display = 'block';
+            showLoading(false);
+
+        } catch (error) {
+            console.error('Error loading book:', error);
+            showError('Failed to load book: ' + error.message);
+        }
+    }
+
+    // Load PDF from backend URL 
+    async function loadPdfFromUrl(pdfUrl) {
+    try {
+        showLoading(true);
+        
+        console.log('Attempting to load PDF from:', pdfUrl);
+        
+        // Load PDF with authentication headers
+        pdfDoc = await pdfjsLib.getDocument({
+            url: pdfUrl,
+            httpHeaders: createPdfHeaders()
+        }).promise;
+        
+        console.log('PDF loaded successfully, total pages:', pdfDoc.numPages);
+        
+        totalPagesEl.textContent = pdfDoc.numPages;
+        currentPdfPage = 1;
+        currentPageEl.textContent = currentPdfPage;
+        currentScale = 1.5; // Increased for better visibility
+        zoomControl.value = 150;
+        zoomLevel.textContent = '150%';
+        
+        //  Ensure containers are visible BEFORE rendering
+        chapterHeader.style.display = 'block';
+        pdfContainer.style.display = 'block';
+        pdfContainer.style.visibility = 'visible';
+        pdfContainer.classList.add('active');
+        
+        // Force a reflow to ensure CSS is applied
+        pdfContainer.offsetHeight;
+        
+        await renderPdfPage(currentPdfPage);
+        
+        showLoading(false);
+        
+    } catch (error) {
+        console.error('Error loading PDF:', error);
+        // Try alternative approach if direct PDF loading fails
+        await tryAlternativePdfLoad(pdfUrl);
+    }
 }
 
-  
+
+    // Alternative PDF loading method
+    async function tryAlternativePdfLoad(pdfUrl) {
+        try {
+            console.log('Trying alternative PDF loading method...');
+            
+            // Fetch the PDF as blob first
+            const response = await fetch(pdfUrl, {
+                method: 'GET',
+                headers: createPdfHeaders()
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const pdfBlob = await response.blob();
+            const blobUrl = URL.createObjectURL(pdfBlob);
+            
+            // Load from blob URL
+            pdfDoc = await pdfjsLib.getDocument(blobUrl).promise;
+            
+            console.log('PDF loaded via blob method, total pages:', pdfDoc.numPages);
+            
+            totalPagesEl.textContent = pdfDoc.numPages;
+            currentPdfPage = 1;
+            currentPageEl.textContent = currentPdfPage;
+            currentScale = 1.0;
+            zoomControl.value = 100;
+            zoomLevel.textContent = '100%';
+            
+            await renderPdfPage(currentPdfPage);
+            
+        } catch (error) {
+            console.error('Alternative PDF loading also failed:', error);
+            throw new Error('Failed to load PDF file from server: ' + error.message);
+        }
+    }
+
+    // Render PDF page 
+    async function renderPdfPage(pageNum) {
+    if (!pdfDoc || pageNum < 1 || pageNum > pdfDoc.numPages) return;
+    
+    showLoading(true);
+    
+    try {
+        const page = await pdfDoc.getPage(pageNum);
+        const viewport = page.getViewport({ scale: currentScale });
+        
+        // Ensure canvas is properly sized and visible
+        pdfCanvas.width = viewport.width;
+        pdfCanvas.height = viewport.height;
+        pdfCanvas.style.display = 'block';
+        pdfCanvas.style.visibility = 'visible';
+        pdfCanvas.style.width = '100%';
+        pdfCanvas.style.height = 'auto';
+        
+        console.log(`Rendering page ${pageNum} at ${viewport.width}x${viewport.height}`);
+        
+        const renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+        };
+        
+        await page.render(renderContext).promise;
+        currentPdfPage = pageNum;
+        currentPageEl.textContent = currentPdfPage;
+        
+        // Update button states
+        prevPageBtn.disabled = currentPdfPage <= 1;
+        nextPageBtn.disabled = currentPdfPage >= pdfDoc.numPages;
+        
+        console.log('Page rendered successfully');
+        
+    } catch (error) {
+        console.error('Error rendering PDF page:', error);
+        showError('Error displaying PDF page: ' + error.message);
+    }
+    
+    showLoading(false);
+}
+
+
+    // Initiate payment for the book (keep existing implementation)
+    async function initiatePayment() {
+        if (!currentBookId) return;
+        
+        try {
+            const response = await fetch(`${PAYMENTS_API_URL}/create`, {
+                method: 'POST',
+                headers: createHeaders(),
+                body: JSON.stringify({
+                    bookId: currentBookId,
+                    durationDays: 30
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.sessionUrl) {
+                    window.location.href = data.sessionUrl;
+                } else {
+                    showError('Payment session URL not received.');
+                }
+            } else {
+                const errorText = await response.text();
+                showError('Failed to initiate payment: ' + errorText);
+            }
+        } catch (error) {
+            console.error('Error initiating payment:', error);
+            showError('Error initiating payment.');
+        }
+    }
+
+    // Event listeners (keep all existing event listeners)
+    prevPageBtn.addEventListener('click', () => {
+        if (currentPdfPage > 1) {
+            renderPdfPage(currentPdfPage - 1);
+        }
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+        if (currentPdfPage < pdfDoc.numPages) {
+            renderPdfPage(currentPdfPage + 1);
+        }
+    });
+
+    purchaseBtn.addEventListener('click', initiatePayment);
+
+    zoomControl.addEventListener('input', (e) => {
+        currentScale = parseInt(e.target.value) / 100;
+        zoomLevel.textContent = e.target.value + '%';
+        renderPdfPage(currentPdfPage);
+    });
+
+    zoomInBtn.addEventListener('click', () => {
+        const newZoom = Math.min(200, parseInt(zoomControl.value) + 10);
+        zoomControl.value = newZoom;
+        currentScale = newZoom / 100;
+        zoomLevel.textContent = newZoom + '%';
+        renderPdfPage(currentPdfPage);
+    });
+
+    zoomOutBtn.addEventListener('click', () => {
+        const newZoom = Math.max(50, parseInt(zoomControl.value) - 10);
+        zoomControl.value = newZoom;
+        currentScale = newZoom / 100;
+        zoomLevel.textContent = newZoom + '%';
+        renderPdfPage(currentPdfPage);
+    });
+
+    function saveProgress() {
+        if (!currentBookId) return;
+        localStorage.setItem(`book_${currentBookId}_page`, currentPdfPage);
+        localStorage.setItem(`book_${currentBookId}_zoom`, currentScale);
+        alert(`Saved progress at page ${currentPdfPage}`);
+    }
+    saveFab.addEventListener("click", saveProgress);
+
+    function loadSavedProgress() {
+        if (!currentBookId) return;
+        const savedPage = localStorage.getItem(`book_${currentBookId}_page`);
+        const savedZoom = localStorage.getItem(`book_${currentBookId}_zoom`);
+        
+        if (savedPage) {
+            currentPdfPage = parseInt(savedPage);
+        }
+        if (savedZoom) {
+            currentScale = parseFloat(savedZoom);
+            zoomControl.value = Math.round(currentScale * 100);
+            zoomLevel.textContent = zoomControl.value + '%';
+        }
+    }
+
+    scrollBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    function toggleSettings() {
+        settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
+    }
+
+    settingsFab.addEventListener("click", toggleSettings);
+
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.settings-panel') && !event.target.closest('#settingsFab')) {
+            settingsPanel.style.display = 'none';
+        }
+    });
+
+    document.getElementById("darkModeToggle").addEventListener("change", (e) => {
+        document.body.classList.toggle("dark-mode", e.target.checked);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!pdfDoc) return;
+        
+        if (e.key === 'ArrowLeft' && currentPdfPage > 1) {
+            renderPdfPage(currentPdfPage - 1);
+        } else if (e.key === 'ArrowRight' && currentPdfPage < pdfDoc.numPages) {
+            renderPdfPage(currentPdfPage + 1);
+        } else if (e.key === '+' || e.key === '=') {
+            e.preventDefault();
+            zoomInBtn.click();
+        } else if (e.key === '-') {
+            e.preventDefault();
+            zoomOutBtn.click();
+        }
+    });
+
+    // Initialize the page
+    window.addEventListener('load', () => {
+        if (!getAuthToken()) {
+            showError('Please login to access books.');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+            return;
+        }
+        
+        loadBook().then(() => {
+            loadSavedProgress();
+            if (pdfDoc) {
+                renderPdfPage(currentPdfPage);
+            }
+        });
+    });
+
+    // Debug function to check element visibility
+function debugVisibility() {
+    console.log('PDF Container display:', pdfContainer.style.display);
+    console.log('PDF Container visibility:', pdfContainer.style.visibility);
+    console.log('PDF Container computed display:', window.getComputedStyle(pdfContainer).display);
+    console.log('Canvas width:', pdfCanvas.width, 'height:', pdfCanvas.height);
+    console.log('Canvas client width:', pdfCanvas.clientWidth, 'client height:', pdfCanvas.clientHeight);
+    console.log('Canvas offset width:', pdfCanvas.offsetWidth, 'offset height:', pdfCanvas.offsetHeight);
+}

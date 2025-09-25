@@ -3,6 +3,7 @@ body {
   margin: 0;
   background: #f9f9f9;
   color: #222;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* Navbar */
@@ -46,25 +47,8 @@ body {
 .meta {
   font-size: 14px;
   color: gray;
+  margin: 10px 0;
 }
-
-.actions {
-  margin-top: 15px;
-}
-
-.btn {
-  padding: 8px 15px;
-  margin: 5px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  color: white;
-}
-
-.purple { background: purple; }
-.green { background: green; }
-.red { background: crimson; }
-.next, .prev { background: gray; }
 
 /* Reading Content */
 .content {
@@ -75,6 +59,92 @@ body {
   font-size: 18px;
   background: white;
   border-radius: 8px;
+  transition: background 0.3s, color 0.3s, font-size 0.3s, line-height 0.3s;
+}
+
+/* PDF Container */
+#pdfContainer {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  border: 2px solid #4CAF50 !important; /* Debug border */
+  background: white !important;
+}
+
+#pdf-canvas {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #FF5722 !important; /* Debug border */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  background: white !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.pdf-controls {
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.pdf-controls button {
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pdf-controls button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Loading Spinner */
+.loading {
+  display: none;
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error Message */
+.error-message {
+  display: none;
+  text-align: center;
+  padding: 40px;
+  background: #f8d7da;
+  color: #721c24;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 800px;
 }
 
 /* Floating Buttons */
@@ -85,6 +155,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  z-index: 1000;
 }
 
 .fab {
@@ -95,46 +166,93 @@ body {
   color: white;
   font-size: 20px;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
+.purple { background: purple; }
+.green { background: green; }
+.red { background: crimson; }
 .blue { background: dodgerblue; }
-.modal-content {
-  background: #fff;
-  margin: 8% auto;
-  padding: 20px;
-  border-radius: 12px;
-  width: 400px;
-  text-align: left;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  font-family: Arial, sans-serif;
+
+/* Panels */
+.settings-panel {
+  position: fixed;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  width: 280px;
+  max-height: 400px;
+  overflow-y: auto;
+  display: none;
+  z-index: 1001;
+  right: 80px;
+  bottom: 180px;
 }
 
-.modal-content h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  background: linear-gradient(to right, #4e54c8, #8f94fb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.settings-panel h3 {
+  margin-top: 0;
+  font-size: 18px;
 }
 
-.modal-content label {
-  font-weight: bold;
+.settings-panel label {
   display: block;
-  margin-bottom: 5px;
+  margin: 10px 0 5px;
 }
 
-.modal-content select {
-  width: 100%;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+/* Dark mode */
+.dark-mode {
+  background: #222 !important;
+  color: #f1f1f1 !important;
 }
 
-/* Themes */
-.light-theme { background: #fff; color: #000; }
-.dark-theme { background: #111; color: #eee; }
-.sepia-theme { background: #f4ecd8; color: #5b4636; }
-.blue-theme { background: #e6f0ff; color: #003366; }
+.dark-mode .content {
+  background: #333 !important;
+  color: #f1f1f1 !important;
+}
 
+.dark-mode #pdfContainer {
+  background: #333 !important;
+}
 
-/* Dark mode *
+.dark-mode .settings-panel {
+  background: #333 !important;
+  color: #f1f1f1 !important;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.zoom-controls button {
+  padding: 5px 10px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.access-denied {
+  text-align: center;
+  padding: 40px;
+  background: #fff3cd;
+  color: #856404;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.purchase-btn {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
+}
