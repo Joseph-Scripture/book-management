@@ -268,9 +268,7 @@ const API_URL = "http://127.0.0.1:8080/user";
         usersTableBody.innerHTML = users.map(user => `
           <tr>
             <td>${user.id || 'N/A'}</td>
-            <td class="image-user-tab">
-              <img src="${user.profileImageUrl || 'user.png'}" alt="${user.username}" onerror="this.src='user.png'">
-            </td>
+            
             <td>${user.username || 'N/A'}</td>
             <td>${user.email || 'N/A'}</td>
             <td>${user.role || 'N/A'}</td>
