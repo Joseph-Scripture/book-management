@@ -4,7 +4,8 @@
     <title>Dashboard</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="Dashboard.css" rel="stylesheet" />
+    
+     
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
@@ -17,6 +18,7 @@
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="./Dashboard.css">
   </head>
   <body>
     <!-- Sidebar Navigation -->
@@ -29,18 +31,17 @@
       </a>
       <ul class="side-menu top">
         <li>
-          <a href="">
+          <a href="Dashboard.html" class="active">
             <i class="bx bxs-dashboard iconku"></i>
             <span>Dashboard</span>
           </a>
         </li>
-       
-        <!-- <li>
-          <a href="petugas.html">
-            <i class="bx bxs-user-rectangle iconku"></i>
-            <span>Users</span>
+        <li>
+          <a href="Kategori.html">
+            <i class="bx bxs-memory-card iconku"></i>
+            <span>Data Category</span>
           </a>
-        </li> -->
+        </li>
         <li>
           <a href="User.html">
             <i class="bx bxs-user-account iconku"></i>
@@ -48,13 +49,13 @@
           </a>
         </li>
         <li>
-          <a href="">
+          <a href="AllBooks.html">
             <i class="bx bx-cog iconku"></i>
-            <span class="Change">Change password</span>
+            <span>Books</span>
           </a>
         </li>
         <li>
-          <a href="">
+          <a href="" id="logout-link">
             <i class="fa-sharp fa-solid fa-door-open iconku"></i>
             <span>Logout</span>
           </a>
@@ -65,7 +66,6 @@
     <!-- end Sidebar Navigation -->
 
     <!-- Main Content -->
-
     <section id="main-content">
       <nav>
         <div class="frame-box-menu">
@@ -91,61 +91,63 @@
           </div>
 
           <div class="account-dropdown">
-            <img src="user.png" alt="" />
+            <img src="user.png" alt="Admin User" />
             <ul class="dropdown-account visible-account">
               <li>
                 <a href=""><i class="bx bxs-user"></i>Profile</a>
               </li>
               <li>
-                <a href=""><i class="bx bxs-cog"></i>Ganti Password</a>
+                <a href=""><i class="bx bxs-cog"></i>Change Password</a>
               </li>
               <li>
-                <a href=""><i class="bx bxs-log-out"></i>Logout</a>
+                <a href="" id="logout-link-dropdown"><i class="bx bxs-log-out"></i>Logout</a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
+      
       <section class="dashboard-menu">
-        <h2>Dashboard Podcast</h2>
+        <h2>READQuest Admin Dashboard</h2>
         <div class="dashboard-item">
           <div class="dashboard-card1">
             <div class="card-teks">
-              <span>EARNINGS (MONTHLY)</span>
-              <h2>$40.0000</h2>
+              <span>TOTAL USERS</span>
+              <h2 id="total-users">0</h2>
             </div>
-            <i class="bx bxs-briefcase"></i>
+            <i class="bx bxs-user-account"></i>
           </div>
           <div class="dashboard-card2">
             <div class="card-teks">
-              <span>EARNINGS (ANNUALY)</span>
-              <h2>$215.000</h2>
+              <span>TOTAL BOOKS</span>
+              <h2 id="total-books">0</h2>
             </div>
-            <i class="bx bx-dollar"></i>
+            <i class="bx bxs-book"></i>
           </div>
           <div class="dashboard-card3">
             <div class="card-teks">
-              <span>TASKS</span>
-              <h2>50%</h2>
+              <span>TOTAL TRANSACTIONS</span>
+              <h2 id="total-transactions">0</h2>
             </div>
-            <div class="persentase-task">
-              <div class="progress-task"></div>
-            </div>
-            <i class="bx bx-task"></i>
+            <i class="bx bxs-receipt"></i>
           </div>
           <div class="dashboard-card4">
             <div class="card-teks">
-              <span>PENDING REQUEST</span>
-              <h2>18</h2>
+              <span>SYSTEM STATUS</span>
+              <h2 id="system-status">Online</h2>
             </div>
-            <i class="bx bxs-chat"></i>
+            <i class="bx bxs-server"></i>
           </div>
         </div>
+
+        <div class="dashboard-chart">
+  <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['Users','Books','Transactions'],datasets:[{label:'Statistics',data:[75,120,250]}]}}" 
+       alt="Dashboard Chart" />
+</div>
+
       </section>
     </section>
 
-    <!-- end Main Content -->
-
-    <script src="script.js"></script>
+    <script src="./Dashboard.js"></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-// constants
+/////////////////////////// // constants
 const passwordInput = document.querySelector('#password');
 const togglePassword = document.querySelector('.toggle-password');
 const form = document.querySelector('.login form');
@@ -85,11 +85,16 @@ formContainer.addEventListener('submit', async (event) => {
         const decoded = parseJwt(data.token);
         console.log("Decoded JWT:", decoded);
 
-        if (decoded && decoded.roles && decoded.roles.includes("ADMIN")) {
-          window.location.href = 'admin-dashboard.html';
-        } else {
-          window.location.href = 'index.html';
-        }
+        // if (decoded && decoded.roles && decoded.roles.includes("ADMIN")) {
+        //   window.location.href = 'http://127.0.0.1:5502/admin-panel-main22%20(6)/admin-panel-main/Dashboard.html';
+        // } else {
+        //   window.location.href = 'index.html';
+        // }
+        if (decoded && decoded.role === "ADMIN") {
+    window.location.href = 'http://127.0.0.1:5502/admin-panel-main22%20(6)/admin-panel-main/Dashboard.html';
+} else {
+    window.location.href = 'index.html';
+}
       } else {
         alert("Login successful but no token received.");
         window.location.href = 'index.html';
