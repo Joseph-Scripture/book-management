@@ -38,7 +38,7 @@ function parseJwt(token) {
 formContainer.addEventListener('submit', async (event) => {
   event.preventDefault();
   const email = document.querySelector('#email').value;
-  const userName = document.querySelector('#user-name').value;
+  // const userName = document.querySelector('#user-name').value;
   const passwordValue = passwordInput.value;
 
   const loginData = {
