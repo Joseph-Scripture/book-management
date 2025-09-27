@@ -127,11 +127,16 @@ h2{
     text-align: center;
     margin: 1.2rem auto 0;
     border: var(--border);
-    width: 60%;
+    width: 100%;
     font-size: 1rem;
     border-radius: 15px;
 }
-
+.sign-up{
+    width:100%;
+    display:block;
+    height: auto;
+    text-align: center;
+}
 /* ----------  Media Queries  ---------- */
 @media (max-width: 768px){
     body{

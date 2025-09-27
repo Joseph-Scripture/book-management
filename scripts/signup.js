@@ -7,7 +7,7 @@ const emailError = document.querySelector('.emailError');
 const passwordError = document.querySelector('.first-passError');
 const confirmError = document.querySelector('.second-passError');
 const form = document.querySelector('form');
-const usernameInput = document.querySelector('#username'); // Changed to get the element, not value
+const usernameInput = document.querySelector('#username');
 
 // Email validation
 function validateEmail() {
@@ -53,8 +53,80 @@ email.addEventListener('input', validateEmail);
 password.addEventListener('input', validatePassword);
 confirmPassword.addEventListener('input', validateConfirmPassword);
 
+// Function to show custom popup notification
+function showNotification(message) {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = 'custom-notification';
+  notification.innerHTML = `
+    <div class="notification-content">
+      <h3>Registration Successful!</h3>
+      <p>${message}</p>
+      <button id="notification-ok">OK</button>
+    </div>
+  `;
+  
+  // Add styles if not already added
+  if (!document.querySelector('#notification-styles')) {
+    const styles = document.createElement('style');
+    styles.id = 'notification-styles';
+    styles.textContent = `
+      .custom-notification {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .notification-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        max-width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .notification-content h3 {
+        color: #4CAF50;
+        margin-bottom: 15px;
+      }
+      .notification-content p {
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+      #notification-ok {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      #notification-ok:hover {
+        background: #45a049;
+      }
+    `;
+    document.head.appendChild(styles);
+  }
+  
+  document.body.appendChild(notification);
+  
+  // Add event listener to OK button
+  document.getElementById('notification-ok').addEventListener('click', function() {
+    document.body.removeChild(notification);
+    window.location.href = 'index.html';
+  });
+}
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  console.log('Form submission started'); // Debug log
   
   // Validate all fields
   const isEmailValid = validateEmail();
@@ -62,6 +134,7 @@ form.addEventListener('submit', async (event) => {
   const isConfirmValid = validateConfirmPassword();
 
   if (!isEmailValid || !isPasswordValid || !isConfirmValid) {
+    console.log('Validation failed'); // Debug log
     return; // Stop if validation fails
   }
 
@@ -71,13 +144,16 @@ form.addEventListener('submit', async (event) => {
   // Get values at submission time
   const emailText = email.value;
   const passwordText = password.value;
-  const userName = usernameInput.value; // Get value when form is submitted
+  const userName = usernameInput.value;
 
   const requestBody = {
     email: emailText,
     password: passwordText,
     username: userName,
   };
+
+  console.log('Sending request to:', apiUrl); // Debug log
+  console.log('Request body:', requestBody); // Debug log
 
   try {
     const response = await fetch(apiUrl, {
@@ -89,17 +165,20 @@ form.addEventListener('submit', async (event) => {
       body: JSON.stringify(requestBody),
     });
 
-    console.log('Response status:', response.status);
+    console.log('Response status:', response.status); // Debug log
     
     // Handle non-JSON responses
     const contentType = response.headers.get('content-type');
+    console.log('Content-Type:', contentType); // Debug log
+    
     if (!contentType || !contentType.includes('application/json')) {
       const text = await response.text();
-      console.log('Non-JSON response:', text);
+      console.log('Non-JSON response:', text); // Debug log
       
       if (response.ok) {
-        // Success but no JSON - redirect
-        window.location.href = 'index.html';
+        console.log('Success - showing notification'); // Debug log
+        // Show notification and redirect after user clicks OK
+        showNotification('Please check your email to confirm your account. After confirmation, you can login.');
         return;
       } else {
         throw new Error(`Server error: ${response.status} - ${text}`);
@@ -107,12 +186,17 @@ form.addEventListener('submit', async (event) => {
     }
 
     const data = await response.json();
+    console.log('JSON response data:', data); // Debug log
     
     if (response.ok) {
-      console.log('Success:', data);
-      updateNavbar(); // Uncomment if you have this function
+      console.log('Success - showing notification'); // Debug log
+      // If you have updateNavbar function, uncomment the next line
+      // updateNavbar();
       form.reset();
-      window.location.href = 'index.html';
+      
+      // Show notification and redirect after user clicks OK
+      showNotification('Please check your email to confirm your account. After confirmation, you can login.');
+      
     } else {
       console.error('Error response:', data);
       

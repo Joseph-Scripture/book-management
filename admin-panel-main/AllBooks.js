@@ -265,7 +265,7 @@ function renderBooksTable(books) {
         const accessClass = book.accessType === 'FREE' ? 'access-free' : 'access-premium';
         
         // Fix price display - properly handle BigDecimal values
-        let priceDisplay = 'Free';
+        let priceDisplay = 0;
         if (book.pricePerMonth !== null && book.pricePerMonth !== undefined && book.pricePerMonth !== 0) {
             // Convert to number and format as currency
             const price = parseFloat(book.pricePerMonth);

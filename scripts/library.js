@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // For "All" category, use the main books endpoint
             if (genre === 'all') {
-                const response = await fetch(`${BOOKS_API_URL}?page=0&size=4`, {
+                const response = await fetch(`${BOOKS_API_URL}?page=0&size=8`, {
                     method: 'GET',
                     headers: createHeaders()
                 });

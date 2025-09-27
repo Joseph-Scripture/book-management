@@ -109,7 +109,7 @@ textarea ::-webkit-scrollbar-thumb{
 
 }
 
-.nav-buttons {
+/* .nav-buttons {
   margin-top: 20px;
   display: flex;
   justify-content: center;
@@ -129,5 +129,43 @@ textarea ::-webkit-scrollbar-thumb{
 
 .nav-buttons button:hover {
   background-color: #08055f;
-}
+} */
 
+
+/* Media Qeuries */
+@media (max-width: 480px){
+    #content .container {
+        min-height: 70vh;
+    }
+    .container form {
+        width: 90%;
+        height: 50%;
+    }
+    .container form input {
+    width: 70%;
+    height: 40px;
+    padding: 10px;
+    }
+    .container form h4 {
+        width: 400px;
+        margin-top: 20px;
+        text-align: center;
+    }
+    .container form textarea {
+        min-width: 320px;
+        max-width: 320px;
+        min-height: 60px;
+        max-height: 60px;
+        border-bottom: 2px solid #222020;
+    }
+    .container form #button {
+        width: 80px;
+        margin-right: 10px;
+        margin-bottom: 20px;
+        
+    }
+    .container form #lastName,
+    .container form #mobile{
+        margin-left: 0;
+    }
+}

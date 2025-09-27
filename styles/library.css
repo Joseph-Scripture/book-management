@@ -466,6 +466,8 @@ h3{
     font-size: 0.875rem;
     color: var(--blue-100);
     line-height: 1.6;
+    word-wrap: break-word; /* Ensures long words break */
+    overflow-wrap: break-word;
 }
 .read-now-btn {
     width: 100%;
